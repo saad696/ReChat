@@ -5,18 +5,36 @@ import Cookie from 'universal-cookie';
 import { Auth, ChannelContainer, ChannelListContainer } from './components';
 import axios from 'axios';
 
+import 'stream-chat-react/dist/css/index.css';
 import './App.css';
+
 import { createTheme, ThemeProvider } from '@mui/material';
 import { getBrowser } from './utilities/getBrowser';
 import { storeDataToDB } from './utilities/storeData';
 
 require('dotenv').config();
+const cookies = new Cookie();
+const API_KEY = process.env.REACT_APP_STREAM_API_KEY;
+const authToken = cookies.get('token');
+const client = StreamChat.getInstance(API_KEY);
+
+if (authToken) {
+    client.connectUser(
+        {
+            id: cookies.get('userId'),
+            name: cookies.get('userName'),
+            fullName: cookies.get('fullName'),
+            image: cookies.get('avatarUrl'),
+            hashedPassword: cookies.get('hashedPassword'),
+            phoneNumber: cookies.get('phoneNumber'),
+        },
+        authToken
+    );
+}
 
 function App() {
-    const API_KEY = process.env.REACT_APP_STREAM_API_KEY;
-    const client = StreamChat.getInstance(API_KEY);
-
     const MODE = localStorage.getItem('mode');
+    const [reRender, setReRender] = useState(null)
     const [mode, setMode] = useState(
         MODE === false || MODE == '' || MODE == null
             ? window.matchMedia('(prefers-color-scheme: dark)').matches
@@ -28,17 +46,11 @@ function App() {
     const theme = createTheme({
         palette: {
             mode: mode,
-            primary: {
-                main: MODE === 'light' ? '#4a148c' : '#9a9a9a',
-            },
-            secondary: {
-                main: '#1597BB',
-            },
         },
     });
-
-    const authToken = false;
-
+    const [createType, setCreateType] = useState('');
+    const [isCreating, setIsCreating] = useState(false);
+    const [isEditing, setIsEditing] = useState(false);
     // useEffect(async () => {
     //     if (performance.navigation.type == performance.navigation.TYPE_RELOAD) {
     //         return
@@ -60,6 +72,7 @@ function App() {
     //         );
 
     //         userDetails = {
+    //             userId: cookies.get('userId')
     //             userBrowser: userBrowser,
     //             ip: data.ip,
     //             location: {
@@ -87,17 +100,33 @@ function App() {
         }
     }, [isModeChanged]);
 
+    useEffect(() => {
+        setReRender(Math.random());
+    }, [mode]);
+
+
+
     return (
         <ThemeProvider theme={theme}>
             {authToken ? (
                 <div className={`app__wrapper ${mode}`}>
-                    <Chat client={client} darkMode={true} theme='team light'>
+                    <Chat client={client} darkMode={mode === 'dark' ? true : ''}>
                         <ChannelListContainer
                             setMode={setMode}
                             setIsModeChanged={setIsModeChanged}
                             mode={mode}
+                            setCreateType={setCreateType}
+                            isCreating={isCreating}
+                            setIsCreating={setIsCreating}
+                            setIsEditing={setIsEditing}
                         />
-                        <ChannelContainer />
+                        <ChannelContainer
+                            isEditing={isEditing}
+                            isCreating={isCreating}
+                            setIsCreating={setIsCreating}
+                            setIsEditing={setIsEditing}
+                            createType={createType}
+                        />
                     </Chat>
                 </div>
             ) : (

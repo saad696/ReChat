@@ -9,12 +9,14 @@ import {
 } from './';
 import Cookies from 'universal-cookie';
 
-import { IconButton } from '@mui/material';
+import { IconButton, Tooltip } from '@mui/material';
 import LogoutIcon from '@mui/icons-material/Logout';
 
 import chatLogo from '../assests/chatLogo.png';
 
-const SideBar = () => (
+const cookies = new Cookies();
+
+const SideBar = ({ logout }) => (
     <div className='channel-list__sidebar dark:bg-gray-800'>
         <div className='channel-list__sidebar__icon1 dark:bg-gray-600'>
             <div className='icon1__inner'>
@@ -23,9 +25,11 @@ const SideBar = () => (
         </div>
         <div className='channel-list__sidebar__icon2 dark:bg-gray-600'>
             <div className='icon2__inner'>
-                <IconButton aria-label='delete'>
-                    <LogoutIcon className='dark:text-gray-200' />
-                </IconButton>
+                <Tooltip title='Logout'>
+                    <IconButton onClick={logout} aria-label='delete'>
+                        <LogoutIcon className='dark:text-gray-200' />
+                    </IconButton>
+                </Tooltip>
             </div>
         </div>
     </div>
@@ -43,10 +47,22 @@ const CompanyHeader = ({ setMode, mode, setIsModeChanged }) => (
 );
 
 const ChannelListContainer = ({ setMode, mode, setIsModeChanged }) => {
+    const logout = () => {
+        cookies.remove('token');
+        cookies.remove('userId');
+        cookies.remove('userName');
+        cookies.remove('fullName');
+        cookies.remove('avatarUrl');
+        cookies.remove('hashedPassword');
+        cookies.remove('phoneNumber');
+
+        window.location.reload();
+    };
+
     return (
         <>
-            <SideBar />
-            <div className='channel-list__list__wrapper dark:bg-gray-700'>
+            <SideBar logout={logout} />
+            <div className='channel-list__list__wrapper dark:bg-gray-900'>
                 <CompanyHeader
                     setMode={setMode}
                     setIsModeChanged={setIsModeChanged}
@@ -56,14 +72,22 @@ const ChannelListContainer = ({ setMode, mode, setIsModeChanged }) => {
                 <ChannelList
                     filters={{}}
                     channelRenderFilterFn={() => {}}
-                    list={(listProps) => <TeamChannelList {...listProps} type='team' />}
-                    Preview={(prevProps) => <TeamChannelPreview {...prevProps} type='team'/>}
+                    List={(listProps) => (
+                        <TeamChannelList {...listProps} type='team' />
+                    )}
+                    Preview={(prevProps) => (
+                        <TeamChannelPreview {...prevProps} type='team' />
+                    )}
                 />
                 <ChannelList
                     filters={{}}
                     channelRenderFilterFn={() => {}}
-                    list={(listProps) => <TeamChannelList {...listProps} type='messaging' />}
-                    Preview={(prevProps) => <TeamChannelPreview {...prevProps} type='messaging'/>}
+                    List={(listProps) => (
+                        <TeamChannelList {...listProps} type='messaging' />
+                    )}
+                    Preview={(prevProps) => (
+                        <TeamChannelPreview {...prevProps} type='messaging' />
+                    )}
                 />
             </div>
         </>

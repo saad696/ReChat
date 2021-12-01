@@ -15,16 +15,16 @@ const TeamChannelList = ({ children, error = false, loading, type }) => {
     if (loading) {
         return (
             <div className='team-channel-list'>
-                <p className='team-channel-list__message loading'>
+                <p className='team-channel-list__message loading flex items-center'>
                     Loading {type === 'team' ? 'Channels' : 'Messages'}
-                    <CircularProgress />
+                    <CircularProgress size={20} className='ml-2'/>
                 </p>
             </div>
         );
     }
 
     return (
-        <div className='team-channel-list'>
+        <div className='team-channel-list pb-12'>
             <div className='team-channel-list__header'>
                 <p className='team-channel-list__header__title'>
                     {type === 'team' ? 'Channels' : 'Driect Messages'}

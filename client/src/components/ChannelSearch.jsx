@@ -26,7 +26,7 @@ const ChannelSearch = () => {
     };
 
     return (
-        <div className='channel-search__container'>
+        <div className='channel-search__container mb-4'>
             <div className='channel-search__input__wrapper'>
                 <div className='channel-search__input__icon'>
                     <SearchIcon className='text-gray-300 dark:text-gray-400' />
