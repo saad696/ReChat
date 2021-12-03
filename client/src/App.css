@@ -1,5 +1,5 @@
 :root {
-    --primary-color: #005fff;
+    --primary-color: #292c6d;
     --primary-color-alpha: #005fff1a;
 }
 
@@ -372,7 +372,7 @@ body {
 
 .channel-list__sidebar {
     width: 72px;
-    background: #1069ff;
+    background: #161853;
     box-shadow: 1px 0px 0px rgba(0, 0, 0, 0.25);
     /* border-top-left-radius: 16px; */
     /* border-bottom-left-radius: 16px; */
@@ -395,7 +395,7 @@ body {
 .channel-list__list__wrapper {
     display: flex;
     flex-direction: column;
-    background: var(--primary-color);
+    background: #20235a;
     width: 360px;
 }
 
@@ -420,6 +420,44 @@ body {
     border-radius: 9999px;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.33);
     cursor: pointer;
+}
+
+.str-chat__typing-indicator__dots {
+    border: none;
+    display: flex;
+    margin-left: 0;
+    width: fit-content;
+}
+
+.str-chat__typing-indicator__dot {
+    background: var(--grey);
+    opacity: 1;
+    height: 4px;
+    width: 4px;
+    border-radius: var(--border-radius-round);
+    display: flex;
+}
+
+.str-chat__typing-indicator__dot:nth-child(3) {
+    opacity: 1;
+}
+
+.str-chat__typing-indicator__dot:nth-child(2) {
+    opacity: 1;
+}
+
+.typing-indicator-name {
+    font-weight: var(--font-weight-bold);
+    color: var(--grey);
+}
+.typing-indicator-role {
+    font-weight: var(--font-weight-regular);
+    color: var(--grey-whisper);
+    margin-left: var(--xxs-m);
+}
+
+.username {
+    display: flex;
 }
 
 .icon2__inner {
@@ -455,7 +493,6 @@ body {
 
 .channel-search__input__wrapper {
     display: flex;
-    justify-content: center;
     align-items: center;
     height: 40px;
     background: rgba(255, 255, 255, 0.2);
@@ -655,8 +692,8 @@ body {
     background: var(--primary-color);
     font-family: Helvetica Neue, sans-serif;
     font-weight: bold;
-    font-size: 18px;
-    padding: 10px 20px;
+    font-size: 14px;
+    padding: 10px 25px;
     color: #ffffff;
     border-radius: 8px;
     cursor: pointer;
@@ -690,7 +727,6 @@ body {
 .user-list__header p:nth-child(2) {
     flex: 0.5;
     text-align: right;
-    margin: 0px 20px;
 }
 
 .user-list__message {
@@ -845,7 +881,7 @@ body {
     justify-content: space-between;
     align-items: center;
     padding: 0 20px;
-    background: #ffffff;
+    background: #f7f7f7;
     box-shadow: 0px 1px 0px rgba(0, 0, 0, 0.1);
     z-index: 1;
 }
@@ -1107,7 +1143,7 @@ body {
 }
 
 .str-chat__message-replies-count-button {
-    z-index: 2;
+    z-index: 1;
     display: flex;
     /* justify-content: flex-end; */
     font-family: Helvetica Neue, sans-serif;
@@ -1549,7 +1585,7 @@ div.rta__autocomplete.str-chat__emojisearch {
     font-weight: normal;
     font-size: 14px;
     line-height: 17px;
-    color: #858688;
+    color: #f4f4f4;
 }
 
 .str-chat__thread .str-chat__square-button {
@@ -1739,23 +1775,175 @@ div.rta__autocomplete.str-chat__emojisearch {
     background: transparent !important;
 }
 
-/* .messaging.str-chat .str-chat__list {
-    background: rgba(31, 41, 55);
-} */
+.str-chat__input-flat {
+    background: #f7f7f7 !important;
+}
 
 .str-chat-channel.messaging .str-chat__main-panel {
     padding: 0 !important;
 }
 
-.str-chat.messaging, .str-chat.commerce{
-  background-color: transparent;
+.str-chat.messaging,
+.str-chat.commerce {
+    background-color: transparent;
 }
 
-.team-channel-list__header + p{
+.team-channel-list__header + p {
     font-size: 12px;
     text-align: center;
     color: gray;
 }
+
+.messaging.str-chat .str-chat__thread-header {
+    background: #ec255a;
+}
+
+.str-chat__thread-header-details strong {
+    color: white;
+}
+
+.messaging.str-chat .str-chat__thread {
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+    background: #f4f4f4;
+}
+
+.str-chat__message-team-group {
+    background: #f4f4f4;
+    border-radius: 10px;
+    margin-bottom: 5px;
+    padding: 8px 0;
+}
+
+.wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: var(--sm-p);
+    background: var(--white);
+    box-shadow: 0 7px 9px 0 var(--border), 0 1px 0 0 var(--border);
+}
+
+.participants-wrapper {
+    display: flex;
+    align-items: center;
+}
+
+.participant:first-child {
+    margin: 0;
+}
+
+.participant {
+    margin-left: calc(var(--md-m) * -1);
+    border-radius: var(--border-radius-round);
+    border: 2px solid var(--white);
+    padding-right: 0;
+}
+
+.reply-count {
+    margin-left: var(--sm-m);
+    font-weight: var(--font-weight-semi-bold);
+}
+
+.close-button {
+    width: 24px;
+    height: 24px;
+}
+
+.left {
+    height: 24px;
+    width: 3px;
+    border-radius: var(--border-radius-sm);
+    margin-left: 12px;
+    background-color: var(--primary-color);
+    transform: rotate(45deg);
+    z-index: 1;
+}
+
+.right {
+    height: 24px;
+    width: 3px;
+    border-radius: var(--border-radius-sm);
+    background-color: var(--primary-color);
+    transform: rotate(90deg);
+    z-index: 2;
+}
+
+.wrapper {
+    width: fit-content;
+    margin-top: var(--sm-m);
+    margin-right: var(--xs-m);
+    background: var(--white);
+    border-radius: var(--border-radius-md) var(--border-radius-md) 0 0;
+  }
+  
+  .header {
+    height: 70px;
+    display: flex;
+    padding: 0 var(--sm-p);
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 7px 9px 0 var(--border), 0 1px 0 0 var(--border);
+  }
+  
+  .inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    margin-top: var(--lg-m);
+    padding: var(--sm-p);
+  }
+  
+  .inner .str-chat__avatar {
+    margin: 0;
+  }
+  
+  .online {
+    font-weight: var(--font-weight-bold);
+    color: var(--green);
+  }
+  
+  .offline {
+    font-weight: var(--font-weight-bold);
+    color: var(--grey);
+  }
+  
+  .name {
+    display: flex;
+    align-items: center;
+    font-size: var(--xl-font);
+  }
+  
+  .name p {
+    color: var(--grey);
+    font-size: var(--xl-font);
+    margin: 0;
+    margin: var(--xs-m);
+  }
+  
+  .id {
+    display: flex;
+    align-items: center;
+  }
+  
+  .id p {
+    color: var(--grey);
+    margin: 0;
+    margin: var(--xs-m);
+  }
+  
+  .role {
+    display: flex;
+    align-items: center;
+  }
+  
+  .role p {
+    color: var(--grey);
+    margin: 0;
+    margin: var(--xs-m);
+  }
 
 @media screen and (max-width: 960px) {
     .channel-list__container {

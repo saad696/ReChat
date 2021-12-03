@@ -36,11 +36,11 @@ function App() {
     const MODE = localStorage.getItem('mode');
     const [reRender, setReRender] = useState(null)
     const [mode, setMode] = useState(
-        MODE === false || MODE == '' || MODE == null
-            ? window.matchMedia('(prefers-color-scheme: dark)').matches
-                ? 'dark'
-                : 'light'
-            : MODE
+        // MODE === false || MODE == '' || MODE == null
+        //     ? window.matchMedia('(prefers-color-scheme: dark)').matches
+        //         ? 'dark'
+        //         : 'light'
+        //     : MODE
     );
     const [isModeChanged, setIsModeChanged] = useState(null);
     const theme = createTheme({

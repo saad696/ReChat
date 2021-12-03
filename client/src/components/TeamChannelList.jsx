@@ -1,8 +1,19 @@
-import { CircularProgress } from '@mui/material';
+import { CircularProgress, IconButton } from '@mui/material';
 import React from 'react';
 import { ErrorHandler } from '.';
+import { AddChannel } from '../assests';
 
-const TeamChannelList = ({ children, error = false, loading, type }) => {
+const TeamChannelList = ({
+    children,
+    error = false,
+    loading,
+    type,
+    setCreateType,
+    isCreating,
+    setIsCreating,
+    setIsEditing,
+    setToggleContainer
+}) => {
     if (error) {
         return type === 'team' ? (
             <ErrorHandler
@@ -17,7 +28,7 @@ const TeamChannelList = ({ children, error = false, loading, type }) => {
             <div className='team-channel-list'>
                 <p className='team-channel-list__message loading flex items-center'>
                     Loading {type === 'team' ? 'Channels' : 'Messages'}
-                    <CircularProgress size={20} className='ml-2'/>
+                    <CircularProgress size={20} className='ml-2' />
                 </p>
             </div>
         );
@@ -29,7 +40,14 @@ const TeamChannelList = ({ children, error = false, loading, type }) => {
                 <p className='team-channel-list__header__title'>
                     {type === 'team' ? 'Channels' : 'Driect Messages'}
                 </p>
-                {/* button */}
+                <AddChannel
+                    setCreateType={setCreateType}
+                    isCreating={isCreating}
+                    setIsCreating={setIsCreating}
+                    setIsEditing={setIsEditing}
+                    type={type === 'team' ? 'team' : 'messaging'}
+                    setToggleContainer={setToggleContainer}
+                />
             </div>
             {children}
         </div>

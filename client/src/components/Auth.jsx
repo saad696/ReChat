@@ -46,15 +46,15 @@ const Auth = ({ setMode, mode, setIsModeChanged }) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const { fullName, userName, password, phoneNumber, avatarUrl } = form;
+        const { userName, password, phoneNumber, avatarUrl } = form;
 
         const URL = 'http://localhost:5000/auth';
         const {
-            data: { token, userId, hashedPassword },
+            data: { token, userId, hashedPassword, fullName },
         } = await axios.post(`${URL}/${isSignup ? 'signup' : 'login'}`, {
             userName,
             password,
-            fullName,
+            fullName: form.fullName,
             avatarUrl,
             phoneNumber,
         });

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { styled } from '@mui/material/styles';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
+import { Tooltip } from '@mui/material';
 
 const MaterialUISwitch = styled(Switch)(({ theme }) => ({
     width: 62,
@@ -55,7 +56,6 @@ const ThemeSwitch = ({ setMode, setIsModeChanged, mode }) => {
     const MODE = localStorage.getItem('mode');
 
     const toggleMode = (e) => {
-        console.log(e.target.checked)
         if (e.target.checked) {
             setMode('dark');
             setIsModeChanged(Math.random());
@@ -67,20 +67,22 @@ const ThemeSwitch = ({ setMode, setIsModeChanged, mode }) => {
 
     return (
         <>
-            <MaterialUISwitch
-                sx={{ m: 1 }}
-                defaultChecked={
-                    MODE === false || MODE === null || MODE === ''
-                        ? window.matchMedia('(prefers-color-scheme: dark)')
-                              .matches
+            <Tooltip title='Modes: feature will be implemented soon.'>
+                <MaterialUISwitch
+                    sx={{ m: 1 }}
+                    defaultChecked={
+                        MODE === false || MODE === null || MODE === ''
+                            ? window.matchMedia('(prefers-color-scheme: dark)')
+                                  .matches
+                                ? true
+                                : false
+                            : MODE === 'dark'
                             ? true
                             : false
-                        : MODE === 'dark'
-                        ? true
-                        : false
-                }
-                onChange={toggleMode}
-            />
+                    }
+                    // onChange={toggleMode}
+                />
+            </Tooltip>
         </>
     );
 };
