@@ -1075,9 +1075,9 @@ body {
     text-overflow: ellipsis;
 }
 
-.str-chat__message-team:hover {
+/* .str-chat__message-team:hover {
     background: #e9e9ea;
-}
+} */
 
 .str-chat__message-team-group {
     display: flex;
@@ -1869,24 +1869,24 @@ div.rta__autocomplete.str-chat__emojisearch {
     z-index: 2;
 }
 
-.wrapper {
+/* .wrapper {
     width: fit-content;
     margin-top: var(--sm-m);
     margin-right: var(--xs-m);
     background: var(--white);
     border-radius: var(--border-radius-md) var(--border-radius-md) 0 0;
-  }
-  
-  .header {
+} */
+
+.header {
     height: 70px;
     display: flex;
     padding: 0 var(--sm-p);
     justify-content: space-between;
     align-items: center;
     box-shadow: 0 7px 9px 0 var(--border), 0 1px 0 0 var(--border);
-  }
-  
-  .inner {
+}
+
+.inner {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -1894,56 +1894,52 @@ div.rta__autocomplete.str-chat__emojisearch {
     font-weight: 700;
     margin-top: var(--lg-m);
     padding: var(--sm-p);
-  }
-  
-  .inner .str-chat__avatar {
+}
+
+.inner .str-chat__avatar {
     margin: 0;
-  }
-  
-  .online {
+}
+
+.online {
     font-weight: var(--font-weight-bold);
     color: var(--green);
-  }
-  
-  .offline {
+}
+
+.offline {
     font-weight: var(--font-weight-bold);
     color: var(--grey);
-  }
-  
-  .name {
+}
+
+.name {
     display: flex;
     align-items: center;
     font-size: var(--xl-font);
-  }
-  
-  .name p {
-    color: var(--grey);
-    font-size: var(--xl-font);
+}
+
+.name p {
     margin: 0;
     margin: var(--xs-m);
-  }
-  
-  .id {
+}
+
+.id {
     display: flex;
     align-items: center;
-  }
-  
-  .id p {
-    color: var(--grey);
+}
+
+.id p {
     margin: 0;
     margin: var(--xs-m);
-  }
-  
-  .role {
+}
+
+.role {
     display: flex;
     align-items: center;
-  }
-  
-  .role p {
-    color: var(--grey);
+}
+
+.role p {
     margin: 0;
     margin: var(--xs-m);
-  }
+}
 
 @media screen and (max-width: 960px) {
     .channel-list__container {
@@ -2032,4 +2028,9 @@ div.rta__autocomplete.str-chat__emojisearch {
     .channel-list__sidebar {
         display: none;
     }
+}
+
+.css-1160xiw-MuiPaper-root-MuiDrawer-paper {
+    background-color: #20235a !important;
+    color: #ccc !important;
 }

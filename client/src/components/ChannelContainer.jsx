@@ -1,5 +1,5 @@
 import { Drawer, Tooltip } from '@mui/material';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     Channel,
     useChatContext,
@@ -7,62 +7,17 @@ import {
     Avatar,
     Streami18n,
 } from 'stream-chat-react';
+import Cookies from 'universal-cookie';
 import {
     ChannelInner,
+    ClickedUser,
     CreateChannel,
     CustomThreadHeader,
     CustomTypingIndicator,
     EditChannel,
 } from './';
 
-const ClickedUser = (props) => {
-    const { clickedUser, setClickedUser } = props;
 
-    const defautFontSize = { fontSize: 14 };
-
-    return (
-        <Drawer
-            anchor={'right'}
-            open={clickedUser}
-            onClose={() => setClickedUser(undefined)}
-        >
-            <div className='ml-2 mb-2 font-bold text-gray-500'>Tagged User</div>{' '}
-            <hr />
-            <div className='inner flex justify-center'>
-                {clickedUser.image && (
-                    <Avatar image={clickedUser.image} size={140} />
-                )}
-                <div>
-                    <div className='name justify-center' style={defautFontSize}>
-                        Name: {<p style={defautFontSize}>{clickedUser.name}</p>}{' '}
-                        <div>
-                            {clickedUser.online ? (
-                                <Tooltip title='Status: Online'>
-                                    <div className='online w-2 h-2 bg-green-600 rounded'></div>
-                                </Tooltip>
-                            ) : (
-                                <Tooltip title='Status: Offline'>
-                                    <div className='offline w-2 h-2 bg-gray-400 rounded'></div>
-                                </Tooltip>
-                            )}
-                        </div>
-                    </div>
-                    <div className='role justify-center' style={defautFontSize}>
-                        Role: {<p style={defautFontSize}>{clickedUser.role}</p>}
-                    </div>
-                    <div className='id justify-center' style={defautFontSize}>
-                        Phone Number:{' '}
-                        {
-                            <p style={defautFontSize}>
-                                {clickedUser.phoneNumber}
-                            </p>
-                        }
-                    </div>
-                </div>
-            </div>
-        </Drawer>
-    );
-};
 
 const ChannelContainer = ({
     isEditing,
@@ -73,6 +28,8 @@ const ChannelContainer = ({
 }) => {
     const { channel } = useChatContext();
     const [clickedUser, setClickedUser] = useState();
+    const [channelMembers, setChannelMembers] = useState();
+    const [isOpen, setIsOpen] = useState(false);
     const i18nInstance = new Streami18n({
         language: 'en',
         translationsForLanguage: {
@@ -80,6 +37,18 @@ const ChannelContainer = ({
                 'Alert, connection issue happening',
         },
     });
+
+    const getChannelUsers = async () => {
+        let sort = { created_at: -1 };
+        const members = await channel?.queryMembers({}, sort, {});
+        setChannelMembers(members.members);
+    };
+
+    useEffect(() => {
+        if (isOpen) {
+            getChannelUsers();
+        }
+    }, [isOpen]);
 
     const onMentionsClick = (event, user) => {
         setClickedUser(user);
@@ -134,11 +103,17 @@ const ChannelContainer = ({
                     <MessageTeam key={i} {...messageProps} />
                 )}
             >
-                <ChannelInner setIsEditing={setIsEditing} />
+                <ChannelInner
+                    setIsEditing={setIsEditing}
+                    isOpen={isOpen}
+                    setIsOpen={setIsOpen}
+                    channelMembers={channelMembers}
+                />
                 {clickedUser && (
                     <ClickedUser
                         clickedUser={clickedUser}
                         setClickedUser={setClickedUser}
+                        title='Tagged user'
                     />
                 )}
             </Channel>

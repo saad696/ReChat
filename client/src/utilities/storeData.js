@@ -6,6 +6,7 @@ export const storeDataToDB = (data) => {
     let _existingData = [];
     getDocs(colRef)
         .then((snapshot) => {
+            console.log(snapshot)
             snapshot.docs.forEach((doc) => {
                 _existingData.push({ ...doc.data(), id: doc.id });
             });
@@ -21,7 +22,7 @@ export const storeDataToDB = (data) => {
         let doesExist = false
 
         for (let d of dbData) {
-            if (d.ip === data.ip) {
+            if (d.userId && d.userId === data.userId) {
                 doesExist = true;
             } else {
                 doesExist = false;

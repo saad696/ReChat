@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ChannelList, useChatContext } from 'stream-chat-react';
 import {
     ChannelSearch,
@@ -9,33 +9,39 @@ import {
 } from './';
 import Cookies from 'universal-cookie';
 
-import { IconButton, Tooltip } from '@mui/material';
+import { Avatar, IconButton, Tooltip } from '@mui/material';
 import LogoutIcon from '@mui/icons-material/Logout';
-
-import chatLogo from '../assests/chatLogo.png';
 
 const cookies = new Cookies();
 
-const SideBar = ({ logout }) => {
-    const avatarURL = cookies.get('avatarUrl');
-    return(
-        <div className='channel-list__sidebar dark:bg-gray-800'>
-        <div className='channel-list__sidebar__icon1 dark:bg-gray-600'>
-            <div className='icon1__inner'>
-                <img src={avatarURL} alt='ReChat' width='30' />
+const SideBar = ({ logout, client }) => {
+    const [user, setUser] = useState('');
+
+    const getUser = async () => {
+        const result = await client.queryUsers({
+            id: { $in: [cookies.get('userId')] },
+        });
+        setUser(...result.users);
+    };
+
+    useEffect(() => {
+        getUser();
+    }, []);
+
+    return (
+        <div className='channel-list__sidebar dark:bg-gray-800 '>
+            {user && <Avatar className='mx-auto mt-5' src={user.image} />}
+            <div className='channel-list__sidebar__icon2 dark:bg-gray-600'>
+                <div className='icon2__inner'>
+                    <Tooltip title='Logout'>
+                        <IconButton onClick={logout} aria-label='delete'>
+                            <LogoutIcon className='dark:text-gray-200' />
+                        </IconButton>
+                    </Tooltip>
+                </div>
             </div>
         </div>
-        <div className='channel-list__sidebar__icon2 dark:bg-gray-600'>
-            <div className='icon2__inner'>
-                <Tooltip title='Logout'>
-                    <IconButton onClick={logout} aria-label='delete'>
-                        <LogoutIcon className='dark:text-gray-200' />
-                    </IconButton>
-                </Tooltip>
-            </div>
-        </div>
-    </div>
-    )
+    );
 };
 
 const CompanyHeader = ({ setMode, mode, setIsModeChanged }) => (
@@ -81,11 +87,13 @@ const ChannelListContent = ({
 
     const { client } = useChatContext();
 
+    console.log(client)
+
     const filters = { members: { $in: [client.userID] } };
 
     return (
         <>
-            <SideBar logout={logout} />
+            <SideBar logout={logout} client={client} />
             <div className='channel-list__list__wrapper dark:bg-gray-900'>
                 <CompanyHeader
                     setMode={setMode}

@@ -7,7 +7,7 @@ const CustomThreadHeader = ({ closeThread, thread }) => {
     return (
       <div className='wrapper'>
         <div className='participants-wrapper'>
-          {threadParticipants.map((participant) => (
+          {threadParticipants?.map((participant) => (
             <div className='participant'>
               <Avatar image={participant.image} name={participant.name} />
             </div>

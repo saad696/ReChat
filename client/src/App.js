@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { StreamChat } from 'stream-chat';
-import { Chat } from 'stream-chat-react';
+import { Chat, useChatContext } from 'stream-chat-react';
 import Cookie from 'universal-cookie';
 import { Auth, ChannelContainer, ChannelListContainer } from './components';
 import axios from 'axios';
@@ -34,14 +34,13 @@ if (authToken) {
 
 function App() {
     const MODE = localStorage.getItem('mode');
-    const [reRender, setReRender] = useState(null)
-    const [mode, setMode] = useState(
-        // MODE === false || MODE == '' || MODE == null
-        //     ? window.matchMedia('(prefers-color-scheme: dark)').matches
-        //         ? 'dark'
-        //         : 'light'
-        //     : MODE
-    );
+    const [reRender, setReRender] = useState(null);
+    const [mode, setMode] = useState();
+    // MODE === false || MODE == '' || MODE == null
+    //     ? window.matchMedia('(prefers-color-scheme: dark)').matches
+    //         ? 'dark'
+    //         : 'light'
+    //     : MODE
     const [isModeChanged, setIsModeChanged] = useState(null);
     const theme = createTheme({
         palette: {
@@ -56,6 +55,7 @@ function App() {
     //         return
     //     }
     //       else {
+    //           console.log('executed')
     //         let userDetails = {};
     //         const userBrowser = getBrowser();
     //         const { data } = await axios.get(
@@ -72,7 +72,9 @@ function App() {
     //         );
 
     //         userDetails = {
-    //             userId: cookies.get('userId')
+    //             userId: cookies.get('userId'),
+    //             name: cookies.get('userName'),
+    //             fullName: cookies.get('fullName'),
     //             userBrowser: userBrowser,
     //             ip: data.ip,
     //             location: {
@@ -104,13 +106,14 @@ function App() {
         setReRender(Math.random());
     }, [mode]);
 
-
-
     return (
         <ThemeProvider theme={theme}>
             {authToken ? (
                 <div className={`app__wrapper ${mode}`}>
-                    <Chat client={client} darkMode={mode === 'dark' ? true : ''}>
+                    <Chat
+                        client={client}
+                        darkMode={mode === 'dark' ? true : ''}
+                    >
                         <ChannelListContainer
                             setMode={setMode}
                             setIsModeChanged={setIsModeChanged}

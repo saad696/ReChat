@@ -28,7 +28,14 @@ const TeamChannelPreview = ({
                     name={members[0]?.user?.fullName || members[0]?.user?.id}
                     size={24}
                 />
-                <p>{members[0]?.user?.fullName || members[0]?.user?.id}</p>
+                <span className='flex items-center'>
+                    <p>{members[0]?.user?.fullName || members[0]?.user?.id}</p>
+                    {members[0]?.user?.online ? (
+                        <div className='online w-2 h-2 bg-green-600 rounded ml-2'></div>
+                    ) : (
+                        <div className='offline w-2 h-2 bg-gray-400 rounded ml-2'></div>
+                    )}
+                </span>
             </div>
         );
     };

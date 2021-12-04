@@ -4,6 +4,9 @@ import { NotificationPopup, UserList } from '..';
 import { useChatContext } from 'stream-chat-react';
 import { IconButton } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
+import Cookies from 'universal-cookie';
+
+const cookies = new Cookies();
 
 const ChannelNameInput = ({ channelName = '', setChannelName }) => {
     const [err, setErr] = useState('');
@@ -37,7 +40,7 @@ const ChannelNameInput = ({ channelName = '', setChannelName }) => {
 
 const CreateChannel = ({ createType, setIsCreating }) => {
     const [channelName, setChannelName] = useState('');
-    const { client, setActiveChannel } = useChatContext();
+    const { client, setActiveChannel, channel } = useChatContext();
     const [selectedUsers, setSelectedUsers] = useState([client.userID || '']);
     const [error, setError] = useState(false);
 
@@ -47,6 +50,11 @@ const CreateChannel = ({ createType, setIsCreating }) => {
             const newChannel = await client.channel(createType, channelName, {
                 name: channelName,
                 members: selectedUsers,
+            });
+
+            const assignRole = await client.partialUpdateUser({
+                id: cookies.get('userId'),
+                set: { role: 'admin' },
             });
 
             await newChannel.watch();
@@ -75,7 +83,7 @@ const CreateChannel = ({ createType, setIsCreating }) => {
                 <div className='create-channel__header'>
                     <p>
                         {createType === 'team'
-                            ? 'Create a Cew Channel'
+                            ? 'Create a New Channel'
                             : 'Send Direct Message'}
                     </p>
                     <CloseCreateChannel setIsCreating={setIsCreating} />
