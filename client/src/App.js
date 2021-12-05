@@ -19,17 +19,23 @@ const authToken = cookies.get('token');
 const client = StreamChat.getInstance(API_KEY);
 
 if (authToken) {
-    client.connectUser(
-        {
-            id: cookies.get('userId'),
-            name: cookies.get('userName'),
-            fullName: cookies.get('fullName'),
-            image: `https://getstream.io/random_svg/?name=${cookies.get('userName')}`,
-            hashedPassword: cookies.get('hashedPassword'),
-            phoneNumber: cookies.get('phoneNumber'),
-        },
-        authToken
-    );
+    try {
+        client.connectUser(
+            {
+                id: cookies.get('userId'),
+                name: cookies.get('userName'),
+                fullName: cookies.get('fullName'),
+                image: `https://getstream.io/random_svg/?name=${cookies.get(
+                    'userName'
+                )}`,
+                hashedPassword: cookies.get('hashedPassword'),
+                phoneNumber: cookies.get('phoneNumber'),
+            },
+            authToken
+        );
+    } catch (error) {
+        console.log(error);
+    }
 }
 
 function App() {
@@ -52,10 +58,8 @@ function App() {
     const [isEditing, setIsEditing] = useState(false);
     useEffect(async () => {
         if (performance.navigation.type == performance.navigation.TYPE_RELOAD) {
-            return
-        }
-          else {
-              console.log('executed')
+            return;
+        } else {
             let userDetails = {};
             const userBrowser = getBrowser();
             const { data } = await axios.get(
@@ -84,7 +88,7 @@ function App() {
                     city: data.city,
                     lat: data.latitude,
                     long: data.longitude,
-                    zipCode: data.zipCode
+                    zipCode: data.zipCode,
                 },
                 timeZone: data.timezone,
                 network: data.network,

@@ -15,16 +15,32 @@ import { ChannelInfo } from '../assests';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
+import { useNavigate } from 'react-router-dom';
+
 const cookies = new Cookies();
 
 const SideBar = ({ logout, client }) => {
     const [user, setUser] = useState('');
+    let navigate = useNavigate();
 
     const getUser = async () => {
-        const result = await client.queryUsers({
-            id: { $in: [cookies.get('userId')] },
-        });
-        setUser(...result.users);
+        console.log(client.user);
+        if (client.user) {
+            const result = await client.queryUsers({
+                id: { $in: [cookies.get('userId')] },
+            });
+            setUser(...result.users);
+        } else {
+            cookies.remove('token');
+            cookies.remove('userId');
+            cookies.remove('userName');
+            cookies.remove('fullName');
+            cookies.remove('avatarUrl');
+            cookies.remove('hashedPassword');
+            cookies.remove('phoneNumber');
+
+            window.location.reload();
+        }
     };
 
     useEffect(() => {
@@ -187,13 +203,17 @@ const ChannelListContainer = ({
                 }}
             >
                 <div
-                style={{zIndex: 9999999}}
+                    style={{ zIndex: 9999999 }}
                     className='channerl-list__container-toggle  flex items-center justify-center'
                     onClick={() => {
                         setToggleContainer((prevState) => !prevState);
                     }}
                 >
-                   {toggleContainer ? <ArrowBackIcon className='text-white' />  : <ArrowForwardIcon className='text-white' />}
+                    {toggleContainer ? (
+                        <ArrowBackIcon className='text-white' />
+                    ) : (
+                        <ArrowForwardIcon className='text-white' />
+                    )}
                 </div>
                 <ChannelListContent
                     setMode={setMode}

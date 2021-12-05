@@ -25,11 +25,11 @@ const TeamChannelPreview = ({
             <div className='channel-preview__item single'>
                 <Avatar
                     image={members[0]?.user?.image}
-                    name={members[0]?.user?.fullName || members[0]?.user?.id}
+                    name={members[0]?.user?.name || members[0]?.user?.fullName}
                     size={24}
                 />
                 <span className='flex items-center'>
-                    <p>{members[0]?.user?.fullName || members[0]?.user?.id}</p>
+                    <p>{members[0]?.user?.name || members[0]?.user?.fullName}</p>
                     {members[0]?.user?.online ? (
                         <div className='online w-2 h-2 bg-green-600 rounded ml-2'></div>
                     ) : (

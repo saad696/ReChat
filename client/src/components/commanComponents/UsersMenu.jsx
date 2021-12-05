@@ -2,9 +2,10 @@ import * as React from 'react';
 import MenuItem from '@mui/material/MenuItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 
-import { Avatar, Menu, Tooltip } from '@mui/material';
+import { Menu, Tooltip } from '@mui/material';
 import moment from 'moment';
 import { ClickedUser } from '..';
+import { Avatar } from 'stream-chat-react';
 
 export default function UsersMenu({
     isOpen,
@@ -132,7 +133,7 @@ export default function UsersMenu({
                                             : 'online'
                                     }
                                 >
-                                    <Avatar src={member.user.image} />
+                                    <Avatar image={member.user.image}  name={member.user.name || member.user.fullName} />
                                 </Tooltip>
                                 <span className='flex items-center'>
                                     <p className='text-black font-bold'>

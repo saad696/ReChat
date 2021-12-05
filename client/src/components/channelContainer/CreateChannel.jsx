@@ -52,10 +52,14 @@ const CreateChannel = ({ createType, setIsCreating }) => {
                 members: selectedUsers,
             });
 
-            const assignRole = await client.partialUpdateUser({
-                id: cookies.get('userId'),
-                set: { role: 'admin' },
+            console.log(client.userID)
+
+            await client.upsertUser({
+                id: client.userID,
+                role: 'admin',
             });
+
+            
 
             await newChannel.watch();
 
@@ -64,6 +68,7 @@ const CreateChannel = ({ createType, setIsCreating }) => {
             setSelectedUsers([client.userID]);
             setActiveChannel(newChannel);
         } catch (error) {
+            console.log(error)
             setError(true);
         }
     };
@@ -94,7 +99,7 @@ const CreateChannel = ({ createType, setIsCreating }) => {
                         setChannelName={setChannelName}
                     />
                 )}
-                <UserList setSelectedUsers={setSelectedUsers} type={'create'}/>
+                <UserList setSelectedUsers={setSelectedUsers} type={'create'} />
                 <div
                     className='create-channel__button-wrapper'
                     onClick={createChannel}

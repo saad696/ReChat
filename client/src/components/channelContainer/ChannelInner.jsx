@@ -77,6 +77,8 @@ const TeamChannelHeader = ({
     const { channel, watcher_count } = useChannelStateContext();
     const { client } = useChatContext();
 
+    const [usersOnline, setUsersOnline] = useState();
+
     const MessagingHeader = () => {
         const members = Object.values(channel.state.members).filter(
             ({ user }) => user.id !== client.userID
@@ -111,11 +113,11 @@ const TeamChannelHeader = ({
                         >
                             <Avatar
                                 image={user.image}
-                                name={user.fullName || user.id}
+                                name={user.name || user.fullName}
                                 size={32}
                             />
                             <p className='team-channel-header__name user'>
-                                {user.fullName || user.id}
+                                {user.name || user.fullName}
                             </p>
                         </div>
                     ))}
@@ -162,6 +164,23 @@ const TeamChannelHeader = ({
         return `${watchers} users online`;
     };
 
+    const channelMembersCount = async () => {
+        let count = 0;
+        let sort = { created_at: 1 };
+        const users = await channel.queryMembers({}, sort, {});
+        for (let x of users.members) {
+            if (x.user.online) {
+                count = count + 1;
+            }
+        }
+
+        setUsersOnline(count);
+    };
+
+    useEffect(() => {
+        channelMembersCount()
+    }, [usersOnline]);
+
     const handleClose = () => {
         setIsOpen(false);
     };
@@ -170,9 +189,7 @@ const TeamChannelHeader = ({
         <div className='team-channel-header__container'>
             <MessagingHeader />
             <div className='team-channel-header__right flex'>
-                <p className='team-channel-header__right-text mr-2'>
-                    {getWatcherText(watcher_count)}
-                </p>
+                <p className='team-channel-header__right-text mr-2'>{usersOnline === 1 ? `1 user online` : `${usersOnline} users online`}</p>
                 <IconButton
                     ref={anchorRef}
                     onClick={() => {
