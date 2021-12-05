@@ -24,7 +24,7 @@ if (authToken) {
             id: cookies.get('userId'),
             name: cookies.get('userName'),
             fullName: cookies.get('fullName'),
-            image: cookies.get('avatarUrl'),
+            image: `https://getstream.io/random_svg/?name=${cookies.get('userName')}`,
             hashedPassword: cookies.get('hashedPassword'),
             phoneNumber: cookies.get('phoneNumber'),
         },

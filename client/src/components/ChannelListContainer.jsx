@@ -11,6 +11,9 @@ import Cookies from 'universal-cookie';
 
 import { Avatar, IconButton, Tooltip } from '@mui/material';
 import LogoutIcon from '@mui/icons-material/Logout';
+import { ChannelInfo } from '../assests';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 const cookies = new Cookies();
 
@@ -87,8 +90,6 @@ const ChannelListContent = ({
 
     const { client } = useChatContext();
 
-    console.log(client)
-
     const filters = { members: { $in: [client.userID] } };
 
     return (
@@ -100,7 +101,7 @@ const ChannelListContent = ({
                     setIsModeChanged={setIsModeChanged}
                     mode={mode}
                 />
-                <ChannelSearch />
+                <ChannelSearch setToggleContainer={setToggleContainer} />
                 <ChannelList
                     filters={filters}
                     channelRenderFilterFn={customChannelTeamFilter}
@@ -186,11 +187,14 @@ const ChannelListContainer = ({
                 }}
             >
                 <div
-                    className='channel-list__container-toggle'
+                style={{zIndex: 9999999}}
+                    className='channerl-list__container-toggle  flex items-center justify-center'
                     onClick={() => {
                         setToggleContainer((prevState) => !prevState);
                     }}
-                ></div>
+                >
+                   {toggleContainer ? <ArrowBackIcon className='text-white' />  : <ArrowForwardIcon className='text-white' />}
+                </div>
                 <ChannelListContent
                     setMode={setMode}
                     setIsModeChanged={setIsModeChanged}

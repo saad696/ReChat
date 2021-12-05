@@ -29,11 +29,10 @@ const NotificationPopup = ({ showPopup, setShowPopup, message, Type, duration })
         <>
             <Snackbar
                 open={showPopup}
-                onClose={handleClose}
                 autoHideDuration={duration}
-                key={Math.random()}
+                onClose={handleClose}
             >
-                <Alert onClose={handleClose} severity={type}>
+                <Alert onClose={handleClose} severity={type} >
                     {message}
                 </Alert>
             </Snackbar>

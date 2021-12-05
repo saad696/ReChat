@@ -8,6 +8,7 @@ import {
     Streami18n,
 } from 'stream-chat-react';
 import Cookies from 'universal-cookie';
+import chatBegin from '../assests/chat-begin.svg';
 import {
     ChannelInner,
     ClickedUser,
@@ -17,8 +18,6 @@ import {
     EditChannel,
 } from './';
 
-
-
 const ChannelContainer = ({
     isEditing,
     isCreating,
@@ -26,7 +25,7 @@ const ChannelContainer = ({
     setIsEditing,
     createType,
 }) => {
-    const { channel } = useChatContext();
+    const { channel, client } = useChatContext();
     const [clickedUser, setClickedUser] = useState();
     const [channelMembers, setChannelMembers] = useState();
     const [isOpen, setIsOpen] = useState(false);
@@ -90,7 +89,9 @@ const ChannelContainer = ({
         event.target.style.color = `#${randomColor}`;
     };
 
-    return (
+    // console.log(client.user)
+
+    return channel ? (
         <div className='channel__container'>
             <Channel
                 onMentionsClick={onMentionsClick}
@@ -117,6 +118,14 @@ const ChannelContainer = ({
                     />
                 )}
             </Channel>
+        </div>
+    ) : (
+        <div className='w-100 flex justify-center items-center'>
+            <span>
+                <h1 className='text-center text-5xl font-bold sm:text-4xl'>Welcome to ReChat</h1>
+                <p className='text-center text-gray-400 mb-5'>Connect to people you like, to chat and have fun!</p>
+                <img src={chatBegin} alt='chat-begin'/>
+            </span>
         </div>
     );
 };

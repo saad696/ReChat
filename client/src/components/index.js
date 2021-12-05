@@ -19,3 +19,4 @@ export { default as CustomTypingIndicator } from './commanComponents/CustomTypin
 export { default as CustomThreadHeader } from './commanComponents/CustomThreadHeader'
 export { default as UsersMenu } from './commanComponents/UsersMenu'
 export { default as ClickedUser } from './commanComponents/ClickedUser'
+export { default as ResultsDropdown } from './commanComponents/ResultsDropdown'

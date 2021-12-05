@@ -46,7 +46,7 @@ const Auth = ({ setMode, mode, setIsModeChanged }) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const { userName, password, phoneNumber, avatarUrl } = form;
+        const { userName, password, phoneNumber } = form;
 
         const URL = 'http://localhost:5000/auth';
         const {
@@ -55,7 +55,6 @@ const Auth = ({ setMode, mode, setIsModeChanged }) => {
             userName,
             password,
             fullName: form.fullName,
-            avatarUrl,
             phoneNumber,
         });
 
@@ -66,7 +65,6 @@ const Auth = ({ setMode, mode, setIsModeChanged }) => {
 
         if (isSignup) {
             cookies.set('phoneNumber', phoneNumber);
-            cookies.set('avatarUrl', avatarUrl);
             cookies.set('hashedPassword', hashedPassword);
         }
 
@@ -144,25 +142,6 @@ const Auth = ({ setMode, mode, setIsModeChanged }) => {
                                                         variant='outlined'
                                                         onChange={handleChange}
                                                         type='number'
-                                                        size='small'
-                                                        fullWidth
-                                                        required
-                                                    />
-                                                </Grid>
-                                            )}
-
-                                            {isSignup && (
-                                                <Grid
-                                                    item
-                                                    xs={12}
-                                                    className='pb-3'
-                                                >
-                                                    <TextField
-                                                        name='avatarUrl'
-                                                        id='avatarUrl'
-                                                        label='Avatar URL'
-                                                        variant='outlined'
-                                                        onChange={handleChange}
                                                         size='small'
                                                         fullWidth
                                                         required

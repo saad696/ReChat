@@ -1,16 +1,51 @@
 import { IconButton, Input } from '@mui/material';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import SearchIcon from '@mui/icons-material/Search';
-import { ErrorHandler } from '.';
+import { ErrorHandler, ResultsDropdown } from '.';
+import { useChatContext } from 'stream-chat-react';
 
-const ChannelSearch = () => {
+const ChannelSearch = ({ setToggleContainer }) => {
     const [query, setQuery] = useState('');
     const [loading, setLoading] = useState(false);
+    const [teamChannels, setTeamChannels] = useState([]);
+    const [directChannels, setDirectChannels] = useState([]);
+    const { client, setActiveChannel } = useChatContext();
+    const [focused, setFocused] = useState(false);
+    const onFocus = () => setFocused(true);
+    const onBlur = () => setFocused(false);
 
-    const getChannels = async () => {
+    useEffect(() => {
+        if (!query) {
+            setTeamChannels([]);
+            setDirectChannels([]);
+        }
+    }, [query]);
+
+    const getChannels = async (text) => {
+        if (text === '') {
+            setTeamChannels([]);
+            setDirectChannels([]);
+        }
         try {
-            //TODO: Fetch channels
+            const channelResponse = client.queryChannels({
+                type: 'team',
+                name: { $autocomplete: text },
+                members: { $in: [client.userID] },
+            });
+
+            const userResponse = client.queryUsers({
+                id: { $ne: client.userID },
+                name: { $autocomplete: text },
+            });
+
+            const [channels, { users }] = await Promise.all([
+                channelResponse,
+                userResponse,
+            ]);
+
+            if (channels.length) setTeamChannels(channels);
+            if (users.length) setDirectChannels(users);
         } catch (err) {
             <ErrorHandler type={1} msg='Something went wrong!' />;
             setQuery('');
@@ -21,8 +56,19 @@ const ChannelSearch = () => {
         event.preventDefault();
         setLoading(true);
 
+        setTimeout(() => {
+            if ((directChannels.length && teamChannels.length) === 0) {
+                setLoading(false);
+            }
+        }, 3000);
+
         setQuery(event.target.value);
         getChannels(event.target.value);
+    };
+
+    const setChannel = (channel) => {
+        setQuery('');
+        setActiveChannel(channel);
     };
 
     return (
@@ -37,8 +83,21 @@ const ChannelSearch = () => {
                     type='text'
                     value={query}
                     onChange={onSearch}
+                    // onFocus={onFocus}
+                    // onBlur={onBlur}
                 />
             </div>
+            {query && (
+                <ResultsDropdown
+                    teamChannels={teamChannels}
+                    directChannels={directChannels}
+                    loading={loading}
+                    setChannel={setChannel}
+                    setQuery={setQuery}
+                    setToggleContainer={setToggleContainer}
+                    setFocus={setFocused}
+                />
+            )}
         </div>
     );
 };

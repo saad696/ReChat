@@ -49,40 +49,73 @@ const UserItem = ({ user, setSelectedUsers }) => {
     );
 };
 
-const UserList = ({ setSelectedUsers }) => {
-    const { client } = useChatContext();
+const UserList = ({ setSelectedUsers, type }) => {
+    const { client, channel } = useChatContext();
     const [users, setUsers] = useState([]);
+    const [channelMembers, setChannelMembers] = useState([]);
     const [loading, setLoading] = useState(false);
     const [listEmpty, setListEmpty] = useState(false);
     const [showPopup, setShowPopup] = useState(false);
 
+    const getChannelUsers = async () => {
+        let sort = { created_at: -1 };
+        const members = await channel?.queryMembers({}, sort, {});
+        setChannelMembers(members?.members);
+    };
+
     useEffect(() => {
-        const getUsers = async () => {
-            if (loading) return;
-            setLoading(true);
-
-            try {
-                const response = await client.queryUsers(
-                    { id: { $ne: client.userID } },
-                    { id: 1 },
-                    { limit: 8 }
-                );
-
-                if (response.users.length) {
-                    setUsers(response.users);
-                } else {
-                    setListEmpty(true);
-                }
-            } catch (error) {
-                setShowPopup(true);
-            }
-            setLoading(false);
-        };
-
-        if (client) {
-            getUsers();
+        if (type === 'edit') {
+            getChannelUsers();
         }
     }, []);
+
+    const getUsers = async () => {
+        if (loading) return;
+        setLoading(true);
+        let filteredUsers = [];
+        try {
+            const response = await client.queryUsers(
+                { id: { $ne: client.userID } },
+                { id: 1 },
+                { limit: 8 }
+            );
+
+            if (response.users.length) {
+                if (type === 'edit') {
+                    let _users = [...response.users];
+
+                    const arr = _users.filter((user) => {
+                        return channelMembers.some((member) => {
+                            return user.id === member.user_id;
+                        });
+                    });
+
+                    for (let x in _users) {
+                        if (!arr.includes(_users[x])) {
+                            filteredUsers.push(_users[x]);
+                        }
+                    }
+
+                    setUsers(filteredUsers);
+                } else if (type === 'create') {
+                    setUsers(response.users);
+                }
+            } else {
+                setListEmpty(true);
+            }
+        } catch (error) {
+            setShowPopup(true);
+        }
+        setLoading(false);
+    };
+
+    useEffect(() => {
+        if (type === 'edit' && client && channelMembers?.length > 0) {
+            getUsers();
+        } else if (type === 'create' && client) {
+            getUsers();
+        }
+    }, [channelMembers]);
 
     if (showPopup) {
         return (
@@ -118,7 +151,9 @@ const UserList = ({ setSelectedUsers }) => {
                     />
                 )}
                 <ListConatiner>
-                    <div className='user-list__message font-extrabold text-gray-300 h-100 flex justify-center items-center'>No users found!</div>
+                    <div className='user-list__message font-extrabold text-gray-300 h-100 flex justify-center items-center'>
+                        No users found!
+                    </div>
                 </ListConatiner>
             </>
         );

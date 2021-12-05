@@ -39,7 +39,7 @@ const TeamChannelPreview = ({
             </div>
         );
     };
-
+    
     return (
         <>
             <div
