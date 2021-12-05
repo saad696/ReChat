@@ -59,10 +59,6 @@ const EditChannel = ({ setIsEditing }) => {
            const result = await channel.addMembers(selectedUsers, {
                 text: `${response.users[0].name} Added to party`,
             });
-
-            
-
-            console.log(result.members[0].channel_role)
         }
 
         setChannelName(null);

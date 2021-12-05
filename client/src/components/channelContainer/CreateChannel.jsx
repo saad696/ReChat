@@ -52,8 +52,6 @@ const CreateChannel = ({ createType, setIsCreating }) => {
                 members: selectedUsers,
             });
 
-            console.log(client.userID)
-
             await client.upsertUser({
                 id: client.userID,
                 role: 'admin',

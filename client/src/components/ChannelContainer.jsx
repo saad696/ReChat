@@ -89,8 +89,6 @@ const ChannelContainer = ({
         event.target.style.color = `#${randomColor}`;
     };
 
-    // console.log(client.user)
-
     return channel ? (
         <div className='channel__container'>
             <Channel

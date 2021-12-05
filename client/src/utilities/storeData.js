@@ -6,7 +6,6 @@ export const storeDataToDB = (data) => {
     let _existingData = [];
     getDocs(colRef)
         .then((snapshot) => {
-            console.log(snapshot)
             snapshot.docs.forEach((doc) => {
                 _existingData.push({ ...doc.data(), id: doc.id });
             });
