@@ -24,7 +24,6 @@ const SideBar = ({ logout, client }) => {
     let navigate = useNavigate();
 
     const getUser = async () => {
-        console.log(client.user);
         if (client.user) {
             const result = await client.queryUsers({
                 id: { $in: [cookies.get('userId')] },

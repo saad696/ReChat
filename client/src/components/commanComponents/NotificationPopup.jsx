@@ -6,9 +6,13 @@ const Alert = React.forwardRef(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant='filled' {...props} />;
 });
 
-const NotificationPopup = ({ showPopup, setShowPopup, message, Type, duration }) => {
+const NotificationPopup = ({ showPopup, setShowPopup, message, Type, duration, setMultipleErrorType }) => {
     const handleClose = () => {
-        setShowPopup(false);
+        if(setShowPopup){
+            setShowPopup(false);
+        } else {
+            setMultipleErrorType(0)
+        }
     };
 
     const [type, setType] = useState('');

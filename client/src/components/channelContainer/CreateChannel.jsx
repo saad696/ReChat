@@ -8,8 +8,12 @@ import Cookies from 'universal-cookie';
 
 const cookies = new Cookies();
 
-const ChannelNameInput = ({ channelName = '', setChannelName }) => {
-    const [err, setErr] = useState('');
+const ChannelNameInput = ({
+    channelName = '',
+    setChannelName,
+    err,
+    setErr,
+}) => {
     // const { client, setActiveChannel } = useChatContext();
     // const [selectedUsers, setSelectedUsers] = useState([client.userID || '']);
 
@@ -42,42 +46,76 @@ const CreateChannel = ({ createType, setIsCreating }) => {
     const [channelName, setChannelName] = useState('');
     const { client, setActiveChannel, channel } = useChatContext();
     const [selectedUsers, setSelectedUsers] = useState([client.userID || '']);
-    const [error, setError] = useState(false);
+    const [error, setError] = useState(0);
+    const [err, setErr] = useState('');
 
     const createChannel = async (e) => {
         e.preventDefault();
-        try {
-            const newChannel = await client.channel(createType, channelName, {
-                name: channelName,
-                members: selectedUsers,
-            });
+        if (
+            (createType === 'team' && channelName === '') ||
+            null ||
+            undefined
+        ) {
+            setErr('Channel name cannot be empty pal!');
+        } else if (createType === 'team' && selectedUsers.length === 1) {
+            setError(2);
+        } else {
+            if (createType !== 'team' && selectedUsers.length > 2) {
+                setError(3);
+            } else {
+                try {
+                    const newChannel = await client.channel(
+                        createType,
+                        channelName,
+                        {
+                            name: channelName,
+                            members: selectedUsers,
+                        }
+                    );
 
-            await client.upsertUser({
-                id: client.userID,
-                role: 'admin',
-            });
+                    await client.upsertUser({
+                        id: client.userID,
+                        role: 'admin',
+                    });
 
-            
+                    await newChannel.watch();
 
-            await newChannel.watch();
-
-            setChannelName('');
-            setIsCreating(false);
-            setSelectedUsers([client.userID]);
-            setActiveChannel(newChannel);
-        } catch (error) {
-            console.log(error)
-            setError(true);
+                    setChannelName('');
+                    setIsCreating(false);
+                    setSelectedUsers([client.userID]);
+                    setActiveChannel(newChannel);
+                } catch (error) {
+                    setError(1);
+                }
+            }
         }
     };
 
     return (
         <>
-            {error && (
+            {error === 1 && (
                 <NotificationPopup
-                    setShowPopup={setError}
+                    setMultipleErrorType={setError}
                     showPopup={error}
                     message='Something went wrong, please refresh.'
+                    Type={1}
+                    duration={4000}
+                />
+            )}
+            {error === 2 && (
+                <NotificationPopup
+                    setMultipleErrorType={setError}
+                    showPopup={error}
+                    message='Please add users to create a channel.'
+                    Type={3}
+                    duration={4000}
+                />
+            )}
+            {error === 3 && (
+                <NotificationPopup
+                    setMultipleErrorType={setError}
+                    showPopup={error}
+                    message='Cannot add more that one person to direct messages.'
                     Type={1}
                     duration={4000}
                 />
@@ -95,6 +133,8 @@ const CreateChannel = ({ createType, setIsCreating }) => {
                     <ChannelNameInput
                         channelName={channelName}
                         setChannelName={setChannelName}
+                        err={err}
+                        setErr={setErr}
                     />
                 )}
                 <UserList setSelectedUsers={setSelectedUsers} type={'create'} />

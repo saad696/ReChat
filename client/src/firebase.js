@@ -9,7 +9,7 @@ require('dotenv').config();
 
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-    apiKey: process.env.REACT_APP_FIREBASE_KEY,
+    apiKey: 'AIzaSyDu36T0-xgUSa9-cOSukUZ_yce4o_BU2M4',
     authDomain: 'rechat-ab56a.firebaseapp.com',
     projectId: 'rechat-ab56a',
     storageBucket: 'rechat-ab56a.appspot.com',
