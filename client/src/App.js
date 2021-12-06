@@ -14,7 +14,7 @@ import { storeDataToDB } from './utilities/storeData';
 
 require('dotenv').config();
 const cookies = new Cookie();
-const API_KEY = 'rdwn9qbvtft4';
+const API_KEY = process.env.REACT_APP_STREAM_API_KEY;
 const authToken = cookies.get('token');
 const client = StreamChat.getInstance(API_KEY);
 
