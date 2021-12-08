@@ -2043,3 +2043,8 @@ div.rta__autocomplete.str-chat__emojisearch {
         min-height: 0 !important;
     }
 }
+
+.css-k4qjio-MuiFormHelperText-root{
+    margin-left: 0 !important;
+    margin-top: 0 !important;
+}

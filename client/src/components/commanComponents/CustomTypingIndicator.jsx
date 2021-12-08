@@ -35,7 +35,6 @@ import { useChannelStateContext, useChatContext, useTypingContext } from "stream
           {(threadList ? typingInThread : typingInChannel).map(({ user }, i) => (
             <div className='username'>
               <div className='typing-indicator-name'>{user?.name}</div>
-              <div className='typing-indicator-role '>{user?.role}</div>
             </div>
           ))}
         </div>
