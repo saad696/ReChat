@@ -137,7 +137,7 @@ const CreateChannel = ({ createType, setIsCreating }) => {
                         setErr={setErr}
                     />
                 )}
-                <UserList setSelectedUsers={setSelectedUsers} type={'create'} />
+                <UserList selectedUsers={selectedUsers} setSelectedUsers={setSelectedUsers} type={'create'} createType={createType} />
                 <div
                     className='create-channel__button-wrapper'
                     onClick={createChannel}

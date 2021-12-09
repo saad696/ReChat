@@ -92,6 +92,7 @@ const ChannelSearch2 = ({
                 onChange={onSearch}
                 placeholder={'search for people...'}
                 label='search'
+                autoComplete='off'
             />
         </>
     );

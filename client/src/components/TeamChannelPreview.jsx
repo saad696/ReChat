@@ -41,7 +41,7 @@ const TeamChannelPreview = ({
                     </p>
                 </span>
 
-                <div className='flex justify-end items-center'>
+                {/* <div className='flex justify-end items-center'>
                     {unreadMsgs.id === members[0]?.user?.id ? (
                         <Badge badgeContent={unreadMsgs.count} color='primary'>
                             <MessageIcon color='action' />
@@ -51,7 +51,7 @@ const TeamChannelPreview = ({
                             <MessageIcon color='action' />
                         </Badge>
                     )}
-                </div>
+                </div> */}
             </div>
         );
     };

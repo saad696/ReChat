@@ -72,7 +72,7 @@ const Auth = ({ setMode, mode, setIsModeChanged }) => {
         e?.preventDefault();
         if (isSignup && form.password !== form.confirmPassword) {
             setValidationErr(4);
-        } else if (isSignup && form.phoneNumber.length > 10){
+        } else if (isSignup && form.phoneNumber.length > 10) {
             setValidationErr(3);
         } else {
             setValidationErr(0);
@@ -491,8 +491,8 @@ const Auth = ({ setMode, mode, setIsModeChanged }) => {
                                                 }
                                             >
                                                 {isSignup
-                                                    ? 'Sign In'
-                                                    : 'Sign Up'}
+                                                    ? 'Sign Up'
+                                                    : 'Sign In'}
                                             </Button>
                                         </form>
                                     )}
@@ -535,8 +535,8 @@ const Auth = ({ setMode, mode, setIsModeChanged }) => {
                                                 className='ml-1 dark:text-blue-500 dark:hover:text-blue-700 underline'
                                             >
                                                 {isSignup
-                                                    ? 'Sign In'
-                                                    : 'Sign Up'}
+                                                    ? 'Sign Up'
+                                                    : 'Sign In'}
                                             </span>
                                         </p>
                                     </div>

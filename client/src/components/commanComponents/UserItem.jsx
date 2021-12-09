@@ -1,12 +1,15 @@
-import React, { useState } from 'react';
-import { Avatar } from 'stream-chat-react';
+import React, { useEffect, useState } from 'react';
+import { Avatar, useChatContext } from 'stream-chat-react';
 import { InviteIcon } from '../../assests';
+import RemoveCircleOutlineTwoToneIcon from '@mui/icons-material/RemoveCircleOutlineTwoTone';
 
 const UserItem = ({ user, setSelectedUsers, type }) => {
     const [selected, setSelected] = useState(false);
+    const { client } = useChatContext();
+
 
     const handleSelect = () => {
-        if (type !== 'existing') {
+        if (!type) {
             if (selected) {
                 setSelectedUsers((prevUsers) =>
                     prevUsers.filter((prevUser) => prevUser !== user.id)
@@ -28,15 +31,12 @@ const UserItem = ({ user, setSelectedUsers, type }) => {
                 />
                 <p className='user-item__name'>{user.name || user.fullName}</p>
             </div>
-            {type !== 'existing' ? (
-                selected ? (
+            {!type &&
+                (selected ? (
                     <InviteIcon />
                 ) : (
                     <div className='user-item__invite-empty' />
-                )
-            ) : (
-                ''
-            )}
+                ))}
         </div>
     );
 };

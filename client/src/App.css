@@ -740,11 +740,13 @@ body {
     display: flex;
     align-items: center;
     margin: 0px 20px;
+    padding: 5px !important;
     justify-content: space-between;
 }
 
 .user-item__wrapper:hover {
     background: #f7f6f8;
+    border-radius: 8px;
     cursor: pointer;
 }
 

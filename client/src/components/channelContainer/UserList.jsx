@@ -1,7 +1,7 @@
 import { CircularProgress } from '@mui/material';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useChatContext } from 'stream-chat-react';
-import { ChannelSearch2, NotificationPopup, UserItem } from '..';
+import { ChannelSearch2, NotificationPopup, SelectedUsers, UserItem } from '..';
 
 const ListConatiner = ({
     children,
@@ -15,7 +15,20 @@ const ListConatiner = ({
     loading,
     setLoading,
     channelMembers,
+    selectedUsers,
+    createType,
 }) => {
+    const [_selectedUsers, _setSelectedUsers] = useState([]);
+    useEffect(async () => {
+        if (selectedUsers?.length > 0) {
+            const response = await client.queryUsers({
+                id: { $in: [...selectedUsers] },
+            });
+
+            _setSelectedUsers(response.users);
+        }
+    }, [selectedUsers]);
+
     return (
         <>
             <ChannelSearch2
@@ -30,20 +43,46 @@ const ListConatiner = ({
                 setLoading={setLoading}
                 channelMembers={channelMembers}
             />
-            {type === 'edit' && (
-                <div className='user-list__header'>
-                    <p>Existing Users</p>
-                </div>
+            {createType === 'team' && type === 'edit' && (
+                <>
+                    <div className='user-list__header'>
+                        <p>Existing Users</p>
+                    </div>
+                    <div style={{ height: '550px', overflowY: 'scroll' }}>
+                        {channelMembers?.map((user, i) => (
+                            <UserItem
+                                key={user.user.id}
+                                index={i}
+                                user={user.user}
+                                type='existing'
+                            />
+                        ))}
+                    </div>
+                    <hr />
+                </>
             )}
-            {type === 'edit' &&
-                channelMembers?.map((user, i) => (
-                    <UserItem
-                        key={user.user.id}
-                        index={i}
-                        user={user.user}
-                        type='existing'
-                    />
-                ))}
+            {createType === 'team' && _selectedUsers.length > 1 && (
+                <>
+                    <div className='user-list__header'>
+                        <p>Selected Users</p>
+                        <p>Selected</p>
+                    </div>
+                    <div style={{ height: '550px', overflowY: 'scroll' }}>
+                        {_selectedUsers?.map(
+                            (user, i) =>
+                                user.id !== client.userID && (
+                                    <SelectedUsers
+                                        key={user.id}
+                                        index={i}
+                                        user={user}
+                                        type='selected'
+                                    />
+                                )
+                        )}
+                    </div>
+                    <hr className='mt-3' />
+                </>
+            )}
             <div className='user-list__container'>
                 <div className='user-list__header'>
                     <p>Users</p>
@@ -55,14 +94,14 @@ const ListConatiner = ({
     );
 };
 
-const UserList = ({ setSelectedUsers, type }) => {
+const UserList = ({ selectedUsers, setSelectedUsers, type, createType }) => {
     const { client, channel } = useChatContext();
     const [users, setUsers] = useState([]);
     const [channelMembers, setChannelMembers] = useState([]);
     const [loading, setLoading] = useState(false);
     const [listEmpty, setListEmpty] = useState(false);
     const [showPopup, setShowPopup] = useState(false);
-    
+
     return (
         <>
             <ListConatiner
@@ -76,6 +115,9 @@ const UserList = ({ setSelectedUsers, type }) => {
                 loading={loading}
                 setLoading={setLoading}
                 channelMembers={channelMembers}
+                selectedUsers={selectedUsers}
+                setSelectedUsers={setSelectedUsers}
+                createType={createType}
             >
                 {users.length === 0 && !showPopup && !listEmpty && !loading && (
                     <div className='user-list__message font-extrabold text-gray-300 flex justify-center'>
