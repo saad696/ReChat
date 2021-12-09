@@ -1,13 +1,11 @@
-import { Drawer, Tooltip } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import {
     Channel,
     useChatContext,
-    MessageTeam,
-    Avatar,
     Streami18n,
+    MessageSimple,
+    useMessageContext,
 } from 'stream-chat-react';
-import Cookies from 'universal-cookie';
 import chatBegin from '../assests/chat-begin.svg';
 import {
     ChannelInner,
@@ -25,7 +23,7 @@ const ChannelContainer = ({
     setIsEditing,
     createType,
 }) => {
-    const { channel, client } = useChatContext();
+    const { channel } = useChatContext();
     const [clickedUser, setClickedUser] = useState();
     const [channelMembers, setChannelMembers] = useState();
     const [isOpen, setIsOpen] = useState(false);
@@ -89,6 +87,26 @@ const ChannelContainer = ({
         event.target.style.color = `#${randomColor}`;
     };
 
+    const MessageSimpleStyled = (props) => {
+        // Otherwise wrap it with `.message-simple-styled-received`
+        const { isMyMessage } = useMessageContext();
+
+        if (isMyMessage) {
+            // If the message belongs to me or is sent by me, the wrap it with `.message-simple-styled-sent`
+            return (
+                <div className='message-simple-styled-sent'>
+                    <MessageSimple {...props} />
+                </div>
+            );
+        }
+
+        return (
+            <div>
+                <MessageSimple {...props} />
+            </div>
+        );
+    };
+
     return channel ? (
         <div className='channel__container'>
             <Channel
@@ -99,7 +117,7 @@ const ChannelContainer = ({
                 EmptyStateIndicator={EmptyState}
                 i18nInstance={i18nInstance}
                 Message={(messageProps, i) => (
-                    <MessageTeam key={i} {...messageProps} />
+                    <MessageSimpleStyled key={i} {...messageProps} />
                 )}
             >
                 <ChannelInner
@@ -120,9 +138,13 @@ const ChannelContainer = ({
     ) : (
         <div className='w-100 flex justify-center items-center'>
             <span>
-                <h1 className='text-center text-5xl font-bold sm:text-4xl'>Welcome to ReChat</h1>
-                <p className='text-center text-gray-400 mb-5'>Connect to people you like, to chat and have fun!</p>
-                <img src={chatBegin} alt='chat-begin'/>
+                <h1 className='text-center text-5xl font-bold sm:text-4xl'>
+                    Welcome to ReChat
+                </h1>
+                <p className='text-center text-gray-400 mb-5'>
+                    Connect to people you like, to chat and have fun!
+                </p>
+                <img src={chatBegin} alt='chat-begin' />
             </span>
         </div>
     );

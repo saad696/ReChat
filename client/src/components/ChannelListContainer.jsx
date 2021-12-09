@@ -180,6 +180,7 @@ const ChannelListContainer = ({
     setIsEditing,
 }) => {
     const [toggleContainer, setToggleContainer] = useState(false);
+    const { client, channel } = useChatContext();
 
     return (
         <>

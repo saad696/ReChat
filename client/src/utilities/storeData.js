@@ -1,4 +1,3 @@
-import React, { useState } from 'react';
 import { addDoc, getDocs, updateDoc, doc } from 'firebase/firestore';
 import { colRef, db } from '../firebase';
 

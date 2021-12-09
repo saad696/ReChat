@@ -103,7 +103,6 @@ const ResultsDropdown = ({
     loading,
     setChannel,
     setToggleContainer,
-    setFocus
 }) => {
 
     return (

@@ -3,8 +3,6 @@ import {
     getFirestore,
     collection,
 } from 'firebase/firestore';
-
-import { useState } from 'react';
 require('dotenv').config();
 
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional

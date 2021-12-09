@@ -11,9 +11,6 @@ const ChannelSearch = ({ setToggleContainer }) => {
     const [teamChannels, setTeamChannels] = useState([]);
     const [directChannels, setDirectChannels] = useState([]);
     const { client, setActiveChannel } = useChatContext();
-    const [focused, setFocused] = useState(false);
-    const onFocus = () => setFocused(true);
-    const onBlur = () => setFocused(false);
 
     useEffect(() => {
         if (!query) {
@@ -83,8 +80,6 @@ const ChannelSearch = ({ setToggleContainer }) => {
                     type='text'
                     value={query}
                     onChange={onSearch}
-                    // onFocus={onFocus}
-                    // onBlur={onBlur}
                 />
             </div>
             {query && (
@@ -95,7 +90,6 @@ const ChannelSearch = ({ setToggleContainer }) => {
                     setChannel={setChannel}
                     setQuery={setQuery}
                     setToggleContainer={setToggleContainer}
-                    setFocus={setFocused}
                 />
             )}
         </div>

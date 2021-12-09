@@ -39,7 +39,6 @@ const Auth = ({ setMode, mode, setIsModeChanged }) => {
     const [showPassword, setShowPassword] = useState(false);
     const [msg, setMsg] = useState(0);
     const [OTPsend, setOTPsend] = useState(false);
-    const [isMobileNumberVerfied, setIsMobileNumberVerified] = useState(false);
     const [validationErr, setValidationErr] = useState(0);
 
     const handleClickShowPassword = () => {
@@ -47,16 +46,10 @@ const Auth = ({ setMode, mode, setIsModeChanged }) => {
     };
 
     const handleChange = (e) => {
-        if (isSignup && e.target.name === 'phoneNumber') {
-            e.target.value.length > 10
-                ? setValidationErr(3)
-                : setValidationErr(0);
-        } else {
-            setForm({
-                ...form,
-                [e.target.name]: e.target.value,
-            });
-        }
+        setForm({
+            ...form,
+            [e.target.name]: e.target.value,
+        });
     };
 
     const configureCaptcha = () => {
@@ -68,7 +61,6 @@ const Auth = ({ setMode, mode, setIsModeChanged }) => {
                 callback: (response) => {
                     // reCAPTCHA solved, allow signInWithPhoneNumber.
                     handleSubmit();
-                    setIsMobileNumberVerified(true);
                 },
                 defaultCountry: 'IN',
             },
@@ -80,6 +72,8 @@ const Auth = ({ setMode, mode, setIsModeChanged }) => {
         e?.preventDefault();
         if (isSignup && form.password !== form.confirmPassword) {
             setValidationErr(4);
+        } else if (isSignup && form.phoneNumber.length > 10){
+            setValidationErr(3);
         } else {
             setValidationErr(0);
             if (isSignup) {

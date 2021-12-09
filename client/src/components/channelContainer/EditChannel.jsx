@@ -47,7 +47,7 @@ const EditChannel = ({ setIsEditing }) => {
         const changedName =
             channelName !== (channel.data.name || channelName.data.id);
 
-        if (channelName) {
+        if (channelName && changedName) {
             await channel.update(
                 { name: channelName },
                 { text: `Channel name changed to ${channelName}` }
@@ -55,8 +55,10 @@ const EditChannel = ({ setIsEditing }) => {
         }
 
         if (selectedUsers.length) {
-            const response = await client.queryUsers({ id: { $in: [...selectedUsers] } });
-           const result = await channel.addMembers(selectedUsers, {
+            const response = await client.queryUsers({
+                id: { $in: [...selectedUsers] },
+            });
+            const result = await channel.addMembers(selectedUsers, {
                 text: `${response.users[0].name} Added to party`,
             });
         }
@@ -68,7 +70,7 @@ const EditChannel = ({ setIsEditing }) => {
 
     return (
         <div className='edit-channel__container'>
-            <div className='edit-channel__header'>
+            <div className='edit-channel__header py-3'>
                 <p>Edit Channel</p>
                 <CloseCreateChannel setIsEditing={setIsEditing} />
             </div>

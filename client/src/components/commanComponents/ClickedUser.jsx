@@ -78,7 +78,7 @@ const ClickedUser = ({ clickedUser, setClickedUser, title, type }) => {
         });
         await newChannel.watch();
         setActiveChannel(newChannel);
-        setClickedUser(undefined)
+        setClickedUser(undefined);
     };
 
     return (
@@ -88,7 +88,7 @@ const ClickedUser = ({ clickedUser, setClickedUser, title, type }) => {
             onClose={() => setClickedUser(undefined)}
         >
             <div className='ml-2 mb-2 font-bold text-white'>{title}</div> <hr />
-            <div className='inner flex justify-center'>
+            <div className='inner flex justify-center px-10'>
                 {type === 'from-channel' ? (
                     <Avatar image={clickedUser?.user.image} size={140} />
                 ) : (
@@ -131,23 +131,12 @@ const ClickedUser = ({ clickedUser, setClickedUser, title, type }) => {
                         }
                     </div>
                     <div className='id justify-center' style={defautFontSize}>
-                        Phone Number:{' '}
-                        {
-                            <p className='text-gray-300'>
-                                <a
-                                    href={`tel:${
-                                        type === 'from-channel'
-                                            ? clickedUser.user.phoneNumber
-                                            : clickedUser.phoneNumber
-                                    }`}
-                                    style={defautFontSize}
-                                >
-                                    {type === 'from-channel'
-                                        ? clickedUser.user.phoneNumber
-                                        : clickedUser.phoneNumber}
-                                </a>
-                            </p>
-                        }
+                        {!clickedUser.user.online && (
+                            <>
+                                <p>Last Seen: </p>
+                                <p className='text-gray-300'>{lastSeen()}</p>
+                            </>
+                        )}
                     </div>
                 </div>
             </div>

@@ -56,49 +56,49 @@ function App() {
     const [createType, setCreateType] = useState('');
     const [isCreating, setIsCreating] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
-    useEffect(async () => {
-        if (performance.navigation.type == performance.navigation.TYPE_RELOAD) {
-            return;
-        } else {
-            let userDetails = {};
-            const userBrowser = getBrowser();
-            const { data } = await axios.get(
-                'https://find-any-ip-address-or-domain-location-world-wide.p.rapidapi.com/iplocation',
-                {
-                    params: { apikey: '873dbe322aea47f89dcf729dcc8f60e8' },
-                    headers: {
-                        'x-rapidapi-host':
-                            'find-any-ip-address-or-domain-location-world-wide.p.rapidapi.com',
-                        'x-rapidapi-key':
-                            '681a1480a3mshf9e800a7f1e01d3p1ab23djsn0f5741ea1530',
-                    },
-                }
-            );
+    // useEffect(async () => {
+    //     if (performance.navigation.type == performance.navigation.TYPE_RELOAD) {
+    //         return;
+    //     } else {
+    //         let userDetails = {};
+    //         const userBrowser = getBrowser();
+    //         const { data } = await axios.get(
+    //             'https://find-any-ip-address-or-domain-location-world-wide.p.rapidapi.com/iplocation',
+    //             {
+    //                 params: { apikey: '873dbe322aea47f89dcf729dcc8f60e8' },
+    //                 headers: {
+    //                     'x-rapidapi-host':
+    //                         'find-any-ip-address-or-domain-location-world-wide.p.rapidapi.com',
+    //                     'x-rapidapi-key':
+    //                         '681a1480a3mshf9e800a7f1e01d3p1ab23djsn0f5741ea1530',
+    //                 },
+    //             }
+    //         );
 
-            userDetails = {
-                userId: cookies.get('userId'),
-                name: cookies.get('userName'),
-                fullName: cookies.get('fullName'),
-                userBrowser: userBrowser,
-                ip: data.ip,
-                location: {
-                    continent: data.continent,
-                    country: data.country,
-                    state: data.state,
-                    city: data.city,
-                    lat: data.latitude,
-                    long: data.longitude,
-                    zipCode: data.zipCode,
-                },
-                timeZone: data.timezone,
-                network: data.network,
-                languages: data.languages,
-                visited: 1,
-            };
+    //         userDetails = {
+    //             userId: cookies.get('userId'),
+    //             name: cookies.get('userName'),
+    //             fullName: cookies.get('fullName'),
+    //             userBrowser: userBrowser,
+    //             ip: data.ip,
+    //             location: {
+    //                 continent: data.continent,
+    //                 country: data.country,
+    //                 state: data.state,
+    //                 city: data.city,
+    //                 lat: data.latitude,
+    //                 long: data.longitude,
+    //                 zipCode: data.zipCode,
+    //             },
+    //             timeZone: data.timezone,
+    //             network: data.network,
+    //             languages: data.languages,
+    //             visited: 1,
+    //         };
 
-            storeDataToDB(userDetails);
-        }
-    }, []);
+    //         storeDataToDB(userDetails);
+    //     }
+    // }, []);
 
     useEffect(() => {
         if (isModeChanged !== null) {

@@ -23,6 +23,7 @@ export const GiphyContext = React.createContext({});
 
 const ChannelInner = ({ setIsEditing, isOpen, setIsOpen, channelMembers }) => {
     const [giphyState, setGiphyState] = useState(false);
+    const [openNoti, setOpenNoti] = useState(false);
     const { sendMessage } = useChannelActionContext();
 
     const overrideSubmitHandler = (message) => {
@@ -48,23 +49,35 @@ const ChannelInner = ({ setIsEditing, isOpen, setIsOpen, channelMembers }) => {
     };
 
     return (
-        <GiphyContext.Provider value={{ giphyState, setGiphyState }}>
-            <div style={{ display: 'flex', width: '100%' }}>
-                <Window>
-                    <TeamChannelHeader
-                        setIsEditing={setIsEditing}
-                        isOpen={isOpen}
-                        setIsOpen={setIsOpen}
-                        channelMembers={channelMembers}
-                    />
-                    <MessageList />
-                    <MessageInput
-                        overrideSubmitHandler={overrideSubmitHandler}
-                    />
-                </Window>
-                <Thread />
-            </div>
-        </GiphyContext.Provider>
+        <>
+            {openNoti && (
+                <NotificationPopup
+                    setShowPopup={setOpenNoti}
+                    showPopup={openNoti}
+                    message={'Only Admin can edit the channel.'}
+                    duration={3000}
+                    Type={3}
+                />
+            )}
+            <GiphyContext.Provider value={{ giphyState, setGiphyState }}>
+                <div style={{ display: 'flex', width: '100%' }}>
+                    <Window>
+                        <TeamChannelHeader
+                            setIsEditing={setIsEditing}
+                            isOpen={isOpen}
+                            setIsOpen={setIsOpen}
+                            channelMembers={channelMembers}
+                            setOpenNoti={setOpenNoti}
+                        />
+                        <MessageList onlySenderCanEdit={true} />
+                        <MessageInput
+                            overrideSubmitHandler={overrideSubmitHandler}
+                        />
+                    </Window>
+                    <Thread />
+                </div>
+            </GiphyContext.Provider>
+        </>
     );
 };
 
@@ -73,6 +86,7 @@ const TeamChannelHeader = ({
     setIsOpen,
     isOpen,
     channelMembers,
+    setOpenNoti
 }) => {
     const { channel, watcher_count } = useChannelStateContext();
     const { client } = useChatContext();
@@ -86,13 +100,9 @@ const TeamChannelHeader = ({
         const additionalMembers = members.length - 3;
 
         const [isAdmin, setIsAdmin] = useState(false);
-        const [openNoti, setOpenNoti] = useState(false);
 
         const getCurrentUser = async () => {
-            const result = await client.queryUsers({
-                id: { $in: [cookies.get('userId')] },
-            });
-            if (result?.users[0]?.role === 'admin') {
+            if (channel.data.created_by.id === client.userID) {
                 setIsAdmin(true);
             } else {
                 setIsAdmin(false);
@@ -116,9 +126,11 @@ const TeamChannelHeader = ({
                                 name={user.name || user.fullName}
                                 size={32}
                             />
-                            <p className='team-channel-header__name user'>
-                                {user.name || user.fullName}
-                            </p>
+                            <div>
+                                <p className='team-channel-header__name user font-bold'>
+                                    {user.name || user.fullName}
+                                </p>
+                            </div>
                         </div>
                     ))}
 
@@ -133,15 +145,6 @@ const TeamChannelHeader = ({
 
         return (
             <>
-                {openNoti && (
-                    <NotificationPopup
-                        setShowPopup={setOpenNoti}
-                        showPopup={openNoti}
-                        message={'Only Admin can edit the channel.'}
-                        duration={2000}
-                        Type={3}
-                    />
-                )}
                 <div className='team-channel-header__channel-wrapper'>
                     <p className='team-channel-header__name'>
                         # {channel.data.name}
@@ -158,12 +161,6 @@ const TeamChannelHeader = ({
         );
     };
 
-    const getWatcherText = (watchers) => {
-        if (!watchers) return 'No users online';
-        if (watchers === 1) return '1 user online';
-        return `${watchers} users online`;
-    };
-
     const channelMembersCount = async () => {
         let count = 0;
         let sort = { created_at: 1 };
@@ -178,8 +175,8 @@ const TeamChannelHeader = ({
     };
 
     useEffect(() => {
-        channelMembersCount()
-    }, [usersOnline]);
+        channelMembersCount();
+    }, [channelMembers]);
 
     const handleClose = () => {
         setIsOpen(false);
@@ -189,7 +186,13 @@ const TeamChannelHeader = ({
         <div className='team-channel-header__container'>
             <MessagingHeader />
             <div className='team-channel-header__right flex'>
-                <p className='team-channel-header__right-text mr-2'>{usersOnline === 1 ? `1 user online` : `${usersOnline} users online`}</p>
+                {channel.type !== 'messaging' && (
+                    <p className='team-channel-header__right-text mr-2'>
+                        {usersOnline === 1
+                            ? `1 user online`
+                            : `${usersOnline} users online`}
+                    </p>
+                )}
                 <IconButton
                     ref={anchorRef}
                     onClick={() => {
