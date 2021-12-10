@@ -1,8 +1,5 @@
 import { initializeApp } from 'firebase/app';
-import {
-    getFirestore,
-    collection,
-} from 'firebase/firestore';
+import { getFirestore, collection } from 'firebase/firestore';
 require('dotenv').config();
 
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
@@ -19,5 +16,3 @@ initializeApp(firebaseConfig);
 
 export const db = getFirestore();
 export const colRef = collection(db, 'userDetails');
-
-

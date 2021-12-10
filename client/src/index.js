@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import App from './App';
 import './tailwind.config.css';
 import { BrowserRouter } from "react-router-dom";
+import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 
 ReactDOM.render(
     <React.StrictMode>
@@ -12,3 +13,4 @@ ReactDOM.render(
     </React.StrictMode>,
     document.getElementById('root')
 );
+serviceWorkerRegistration.register();
