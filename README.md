@@ -17,7 +17,7 @@ Here you can visit the application: [ReChat](https://rechatt.netlify.app/)
 Frontend: React js, firebase, stream chat, redux, typescript and material ui. <br />
 Backend: Node js, express js, mongoDB
 
-![](readmeImages/react.png) ![](readmeImages/node-js.png) ![](readmeImages/mongodb.png) ![](readmeImages/firebase.png) ![](readmeImages/redux.png) ![](readmeImages/mui.png) ![](readmeImages/typescript.png) <img src='readmeImages/stream-chat.png' width='60' /> ![](readmeImages/heroku.png) <img src='readmeImages/netlify.png' width='100' />
+![](readmeImages/react.png) ![](readmeImages/node-js.png) ![](readmeImages/mongodb.png) ![](readmeImages/firebase.png) ![](readmeImages/redux.png) ![](readmeImages/mui.png) ![](readmeImages/typescript.png) <img src='readmeImages/stream-chat.png' width='60' /> ![](readmeImages/heroku.png) <img src='readmeImages/netlify-hosting.png' width='100' />
 
 ## This application is also a Progressive Web App:  <img src='readmeImages/pwa.png' width='60' /> 
 
