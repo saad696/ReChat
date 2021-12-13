@@ -1,4 +1,4 @@
-# ReChat <img src='https://github.com/saad696/ReChat/tree/main/client/public/logo512.png' />
+# ReChat !logo(https://github.com/saad696/ReChat/tree/main/client/public/logo512.png?raw=true)
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
