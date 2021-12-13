@@ -1,5 +1,4 @@
-# ReChat 
-![](readmeImages/logo196.png)
+# ReChat  ![](readmeImages/logo192.png)
 
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
