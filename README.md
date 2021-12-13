@@ -54,4 +54,4 @@ In the client directory, you can run:
 Runs the app in the development mode with nodemon.\
 Open [http://localhost:5000](http://localhost:5000)
 
-### more update about the application on this website: 
+### More update about the application on this website: 
