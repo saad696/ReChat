@@ -1,7 +1,7 @@
 # ReChat  ![](readmeImages/favicon-32x32.png)
 
 
-Hello there greetings,
+### Hello there greetings, welcome to ReChat's github repo.
 
 this is a chatting app where you can do create channels, chat with your friends, and share file across the channels in messages.
 
