@@ -5,7 +5,7 @@
 
 this is a chatting app where you can do create channels, chat with your friends, and share file across the channels in messages.
 
-Here you can visit the application: [ReChat](https://rechatt.netlify.app/)
+### Here you can visit the application: [ReChat](https://rechatt.netlify.app/)
 
  `ReChat's frontend is hosted on: Netlify`
 
