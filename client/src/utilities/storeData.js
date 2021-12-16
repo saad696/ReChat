@@ -12,12 +12,12 @@ export const storeDataToDB = (data) => {
         })
         .catch((err) => {
             if (err) {
-                console.log('Some error ocurred!');
+                console.warn('Some error ocurred!');
             }
         });
 
     const addOrUpdate = (dbData, data) => {
-        let doesExist = false
+        let doesExist = false;
 
         for (let d of dbData) {
             if (d.userId && d.userId === data.userId) {
@@ -27,7 +27,7 @@ export const storeDataToDB = (data) => {
             }
         }
 
-        for (let d of dbData) {
+        for (const d of dbData) {
             if (doesExist) {
                 const docRef = doc(db, 'userDetails', d.id);
                 updateDoc(docRef, {

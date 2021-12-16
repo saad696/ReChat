@@ -1,5 +1,5 @@
 import { CircularProgress } from '@mui/material';
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
 import { Avatar, useChatContext } from 'stream-chat-react';
 
 const channelByUser = async ({
@@ -50,8 +50,8 @@ const SearchResult = ({
                         : 'channel-search__result-container'
                 }
             >
-                <div className='result-hashtag'>#</div>
-                <p className='channel-search__result-text'>
+                <div className="result-hashtag">#</div>
+                <p className="channel-search__result-text">
                     {channel.data.name}
                 </p>
             </div>
@@ -77,18 +77,18 @@ const SearchResult = ({
                     : 'channel-search__result-container'
             }
         >
-            <div className='channel-search__result-user'>
+            <div className="channel-search__result-user">
                 <Avatar
                     image={channel.image || undefined}
                     name={channel.name}
                     size={24}
                 />
-                <p className='channel-search__result-text flex items-center'>
+                <p className="channel-search__result-text flex items-center">
                     {channel.name}
                     {channel.online ? (
-                        <div className='online w-2 h-2 bg-green-600 rounded ml-2'></div>
+                        <div className="online w-2 h-2 bg-green-600 rounded ml-2"></div>
                     ) : (
-                        <div className='offline w-2 h-2 bg-gray-400 rounded ml-2'></div>
+                        <div className="offline w-2 h-2 bg-gray-400 rounded ml-2"></div>
                     )}
                 </p>
             </div>
@@ -104,15 +104,14 @@ const ResultsDropdown = ({
     setChannel,
     setToggleContainer,
 }) => {
-
     return (
-        <div className='channel-search__results'>
-            <p className='channel-search__results-header'>Channels</p>
+        <div className="channel-search__results">
+            <p className="channel-search__results-header">Channels</p>
             {loading && !teamChannels.length && (
-                <CircularProgress size={20} className='ml-3 mv-2' />
+                <CircularProgress size={20} className="ml-3 mv-2" />
             )}
             {!loading && !teamChannels.length ? (
-                <p className='channel-search__results-header'>
+                <p className="channel-search__results-header">
                     <i>No channels found</i>
                 </p>
             ) : (
@@ -122,17 +121,17 @@ const ResultsDropdown = ({
                         focusedId={focusedId}
                         key={i}
                         setChannel={setChannel}
-                        type='channel'
+                        type="channel"
                         setToggleContainer={setToggleContainer}
                     />
                 ))
             )}
-            <p className='channel-search__results-header'>Users</p>
+            <p className="channel-search__results-header">Users</p>
             {loading && !directChannels.length && (
-                <CircularProgress size={20} className='ml-3 mv-2' />
+                <CircularProgress size={20} className="ml-3 mv-2" />
             )}
             {!loading && !directChannels.length ? (
-                <p className='channel-search__results-header'>
+                <p className="channel-search__results-header">
                     <i>No direct messages found</i>
                 </p>
             ) : (
@@ -142,7 +141,7 @@ const ResultsDropdown = ({
                         focusedId={focusedId}
                         key={i}
                         setChannel={setChannel}
-                        type='user'
+                        type="user"
                         setToggleContainer={setToggleContainer}
                     />
                 ))

@@ -58,6 +58,7 @@ const Auth = ({ setMode, mode, setIsModeChanged }) => {
             'sign-in-button',
             {
                 size: 'invisible',
+                // eslint-disable-next-line no-unused-vars
                 callback: (response) => {
                     // reCAPTCHA solved, allow signInWithPhoneNumber.
                     handleSubmit();
@@ -94,7 +95,7 @@ const Auth = ({ setMode, mode, setIsModeChanged }) => {
 
                         // ...
                     })
-                    .catch((error) => {
+                    .catch(() => {
                         setMsg(2);
                         setOTPsend(false);
                     });
@@ -138,6 +139,7 @@ const Auth = ({ setMode, mode, setIsModeChanged }) => {
             .then(async (result) => {
                 // for sign up
                 // User signed in successfully.
+                // eslint-disable-next-line no-unused-vars
                 const user = result.user;
                 const { userName, password, phoneNumber } = form;
                 const URL = 'https://re-chatt.herokuapp.com/auth';
@@ -162,7 +164,7 @@ const Auth = ({ setMode, mode, setIsModeChanged }) => {
 
                 window.location.reload();
             })
-            .catch((error) => {
+            .catch(() => {
                 setMsg(3);
             });
     };
@@ -176,7 +178,7 @@ const Auth = ({ setMode, mode, setIsModeChanged }) => {
         <>
             {msg === 1 && (
                 <NotificationPopup
-                    message='OTP has been send to your entered mobile number'
+                    message="OTP has been send to your entered mobile number"
                     setMultipleErrorType={setMsg}
                     showPopup={msg}
                     duration={4000}
@@ -185,7 +187,7 @@ const Auth = ({ setMode, mode, setIsModeChanged }) => {
             )}
             {msg === 2 && (
                 <NotificationPopup
-                    message='Something went wrong please check if entered mobile number is correct.'
+                    message="Something went wrong please check if entered mobile number is correct."
                     setMultipleErrorType={setMsg}
                     showPopup={msg}
                     duration={4000}
@@ -194,7 +196,7 @@ const Auth = ({ setMode, mode, setIsModeChanged }) => {
             )}
             {msg === 3 && (
                 <NotificationPopup
-                    message='The entered OTP is not correct.'
+                    message="The entered OTP is not correct."
                     setMultipleErrorType={setMsg}
                     showPopup={msg}
                     duration={4000}
@@ -203,43 +205,43 @@ const Auth = ({ setMode, mode, setIsModeChanged }) => {
             )}
             {msg === 4 && (
                 <NotificationPopup
-                    message='Entered username and password does not match.'
+                    message="Entered username and password does not match."
                     setMultipleErrorType={setMsg}
                     showPopup={msg}
                     duration={4000}
                     Type={1}
                 />
             )}
-            <div className='auth__form-container'>
-                <div className='auth__form-container_fields channel-list__sidebar dark:bg-gray-800 w-screen'>
-                    <Grid container spacing={1} justifyContent='center'>
+            <div className="auth__form-container">
+                <div className="auth__form-container_fields channel-list__sidebar dark:bg-gray-800 w-screen">
+                    <Grid container spacing={1} justifyContent="center">
                         <Grid xs={12} md={6}>
                             <Typography
-                                variant='h2'
-                                className='font-extrabold pb-4 dark:text-blue-800 text-gray-300'
+                                variant="h2"
+                                className="font-extrabold pb-4 dark:text-blue-800 text-gray-300"
                             >
                                 Welcome to ReChat
                             </Typography>
-                            <div className='flex justify-end'>
+                            <div className="flex justify-end">
                                 <ThemeSwitch
                                     setMode={setMode}
                                     setIsModeChanged={setIsModeChanged}
                                     mode={mode}
                                 />
                             </div>
-                            <div className='auth__form-container_fields-content dark:bg-gray-700 shadow-lg'>
-                                <p className='dark:text-gray-300'>
-                                    <div className='flex justify-between'>
+                            <div className="auth__form-container_fields-content dark:bg-gray-700 shadow-lg">
+                                <p className="dark:text-gray-300">
+                                    <div className="flex justify-between">
                                         <Button
                                             onClick={() => {
                                                 setIsSignup(true);
                                                 setForm(initialState);
                                             }}
-                                            variant='text'
-                                            size='large'
+                                            variant="text"
+                                            size="large"
                                             fullWidth
                                         >
-                                            <span className='font-bold'>
+                                            <span className="font-bold">
                                                 Sign Up
                                             </span>
                                         </Button>
@@ -248,38 +250,38 @@ const Auth = ({ setMode, mode, setIsModeChanged }) => {
                                                 setIsSignup(false);
                                                 setForm(initialState);
                                             }}
-                                            variant='text'
-                                            size='large'
+                                            variant="text"
+                                            size="large"
                                             fullWidth
                                         >
-                                            <span className='font-bold'>
+                                            <span className="font-bold">
                                                 Sign In
                                             </span>
                                         </Button>
                                     </div>
                                     {!OTPsend && (
                                         <form onSubmit={handleSubmit}>
-                                            <div id='sign-in-button'></div>
-                                            <div className='mt-4'>
+                                            <div id="sign-in-button"></div>
+                                            <div className="mt-4">
                                                 <Grid container spacing={2}>
                                                     {isSignup && (
                                                         <Grid
                                                             item
                                                             xs={12}
-                                                            className='pb-3'
+                                                            className="pb-3"
                                                         >
                                                             <TextField
-                                                                name='fullName'
-                                                                id='fullName'
-                                                                label='Full Name'
-                                                                variant='outlined'
+                                                                name="fullName"
+                                                                id="fullName"
+                                                                label="Full Name"
+                                                                variant="outlined"
                                                                 onChange={
                                                                     handleChange
                                                                 }
                                                                 value={
                                                                     form.fullName
                                                                 }
-                                                                size='small'
+                                                                size="small"
                                                                 fullWidth
                                                                 required
                                                             />
@@ -288,17 +290,17 @@ const Auth = ({ setMode, mode, setIsModeChanged }) => {
                                                     <Grid
                                                         item
                                                         xs={12}
-                                                        className='pb-3'
+                                                        className="pb-3"
                                                     >
                                                         <TextField
-                                                            name='userName'
-                                                            id='userName'
-                                                            label='User Name'
-                                                            variant='outlined'
+                                                            name="userName"
+                                                            id="userName"
+                                                            label="User Name"
+                                                            variant="outlined"
                                                             onChange={
                                                                 handleChange
                                                             }
-                                                            size='small'
+                                                            size="small"
                                                             value={
                                                                 form.userName
                                                             }
@@ -315,18 +317,18 @@ const Auth = ({ setMode, mode, setIsModeChanged }) => {
                                                         <Grid
                                                             item
                                                             xs={12}
-                                                            className='pb-3'
+                                                            className="pb-3"
                                                         >
                                                             <TextField
-                                                                name='phoneNumber'
-                                                                id='phoneNumber'
-                                                                label='Phone Number'
-                                                                variant='outlined'
+                                                                name="phoneNumber"
+                                                                id="phoneNumber"
+                                                                label="Phone Number"
+                                                                variant="outlined"
                                                                 onChange={
                                                                     handleChange
                                                                 }
-                                                                type='number'
-                                                                size='small'
+                                                                type="number"
+                                                                size="small"
                                                                 error={
                                                                     validationErr ===
                                                                     3
@@ -336,7 +338,7 @@ const Auth = ({ setMode, mode, setIsModeChanged }) => {
                                                                 helperText={
                                                                     validationErr ===
                                                                         3 && (
-                                                                        <small className='text-red-600 text-xs font-extralight'>
+                                                                        <small className="text-red-600 text-xs font-extralight">
                                                                             Mobile
                                                                             number
                                                                             should
@@ -357,13 +359,13 @@ const Auth = ({ setMode, mode, setIsModeChanged }) => {
                                                     <Grid
                                                         item
                                                         xs={12}
-                                                        className='pb-3'
+                                                        className="pb-3"
                                                     >
                                                         <FormControl
                                                             required
                                                             fullWidth
-                                                            size='small'
-                                                            variant='outlined'
+                                                            size="small"
+                                                            variant="outlined"
                                                             error={
                                                                 validationErr ===
                                                                 4
@@ -373,15 +375,15 @@ const Auth = ({ setMode, mode, setIsModeChanged }) => {
                                                                     : false
                                                             }
                                                         >
-                                                            <InputLabel htmlFor='outlined-adornment-password'>
+                                                            <InputLabel htmlFor="outlined-adornment-password">
                                                                 Password
                                                             </InputLabel>
                                                             <OutlinedInput
                                                                 value={
                                                                     form.password
                                                                 }
-                                                                name='password'
-                                                                id='outlined-adornment-password'
+                                                                name="password"
+                                                                id="outlined-adornment-password"
                                                                 type={
                                                                     showPassword
                                                                         ? 'text'
@@ -391,13 +393,13 @@ const Auth = ({ setMode, mode, setIsModeChanged }) => {
                                                                     handleChange
                                                                 }
                                                                 endAdornment={
-                                                                    <InputAdornment position='end'>
+                                                                    <InputAdornment position="end">
                                                                         <IconButton
-                                                                            aria-label='toggle password visibility'
+                                                                            aria-label="toggle password visibility"
                                                                             onClick={
                                                                                 handleClickShowPassword
                                                                             }
-                                                                            edge='end'
+                                                                            edge="end"
                                                                         >
                                                                             {showPassword ? (
                                                                                 <VisibilityOff />
@@ -407,7 +409,7 @@ const Auth = ({ setMode, mode, setIsModeChanged }) => {
                                                                         </IconButton>
                                                                     </InputAdornment>
                                                                 }
-                                                                label='Password'
+                                                                label="Password"
                                                             />
                                                         </FormControl>
                                                     </Grid>
@@ -415,13 +417,13 @@ const Auth = ({ setMode, mode, setIsModeChanged }) => {
                                                         <Grid
                                                             item
                                                             xs={12}
-                                                            className='pb-3'
+                                                            className="pb-3"
                                                         >
                                                             <FormControl
                                                                 required
                                                                 fullWidth
-                                                                size='small'
-                                                                variant='outlined'
+                                                                size="small"
+                                                                variant="outlined"
                                                                 error={
                                                                     validationErr ===
                                                                     4
@@ -429,13 +431,13 @@ const Auth = ({ setMode, mode, setIsModeChanged }) => {
                                                                         : false
                                                                 }
                                                             >
-                                                                <InputLabel htmlFor='outlined-adornment-confirm-password'>
+                                                                <InputLabel htmlFor="outlined-adornment-confirm-password">
                                                                     Confrim
                                                                     Password
                                                                 </InputLabel>
                                                                 <OutlinedInput
-                                                                    name='confirmPassword'
-                                                                    id='outlined-adornment-confirm-password'
+                                                                    name="confirmPassword"
+                                                                    id="outlined-adornment-confirm-password"
                                                                     type={
                                                                         showPassword
                                                                             ? 'text'
@@ -448,13 +450,13 @@ const Auth = ({ setMode, mode, setIsModeChanged }) => {
                                                                         handleChange
                                                                     }
                                                                     endAdornment={
-                                                                        <InputAdornment position='end'>
+                                                                        <InputAdornment position="end">
                                                                             <IconButton
-                                                                                aria-label='toggle password visibility'
+                                                                                aria-label="toggle password visibility"
                                                                                 onClick={
                                                                                     handleClickShowPassword
                                                                                 }
-                                                                                edge='end'
+                                                                                edge="end"
                                                                             >
                                                                                 {showPassword ? (
                                                                                     <VisibilityOff />
@@ -464,12 +466,12 @@ const Auth = ({ setMode, mode, setIsModeChanged }) => {
                                                                             </IconButton>
                                                                         </InputAdornment>
                                                                     }
-                                                                    label='Confirm Password'
+                                                                    label="Confirm Password"
                                                                 />
                                                             </FormControl>
                                                             {validationErr ===
                                                                 4 && (
-                                                                <small className='text-red-600 text-xs font-extralight'>
+                                                                <small className="text-red-600 text-xs font-extralight">
                                                                     Password and
                                                                     Confirm
                                                                     password
@@ -483,7 +485,7 @@ const Auth = ({ setMode, mode, setIsModeChanged }) => {
                                             </div>
 
                                             <Button
-                                                type='submit'
+                                                type="submit"
                                                 variant={
                                                     mode === 'dark'
                                                         ? 'outlined'
@@ -499,22 +501,22 @@ const Auth = ({ setMode, mode, setIsModeChanged }) => {
                                     {OTPsend && (
                                         <form
                                             onSubmit={onVerifyOTP}
-                                            className='mt-3'
+                                            className="mt-3"
                                         >
-                                            <Grid item xs={12} className='pb-3'>
+                                            <Grid item xs={12} className="pb-3">
                                                 <TextField
-                                                    name='otp'
-                                                    id='otp'
-                                                    label='Enter OTP'
-                                                    variant='outlined'
+                                                    name="otp"
+                                                    id="otp"
+                                                    label="Enter OTP"
+                                                    variant="outlined"
                                                     onChange={handleChange}
-                                                    size='small'
+                                                    size="small"
                                                     fullWidth
                                                     required
                                                 />
                                             </Grid>
                                             <Button
-                                                type='submit'
+                                                type="submit"
                                                 variant={
                                                     mode === 'dark'
                                                         ? 'outlined'
@@ -525,14 +527,14 @@ const Auth = ({ setMode, mode, setIsModeChanged }) => {
                                             </Button>
                                         </form>
                                     )}
-                                    <div className='auth__form-container_fields-account mt-3'>
-                                        <p className='dark:text-gray-400'>
+                                    <div className="auth__form-container_fields-account mt-3">
+                                        <p className="dark:text-gray-400">
                                             {isSignup
                                                 ? 'Already have an account?'
                                                 : "Dont't have an account?"}
                                             <span
                                                 onClick={swicthMode}
-                                                className='ml-1 dark:text-blue-500 dark:hover:text-blue-700 underline'
+                                                className="ml-1 dark:text-blue-500 dark:hover:text-blue-700 underline"
                                             >
                                                 {isSignup
                                                     ? 'Sign Up'

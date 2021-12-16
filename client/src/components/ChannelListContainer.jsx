@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { ChannelList, useChatContext } from 'stream-chat-react';
 import {
     ChannelSearch,
-    TeamChannelSearch,
     TeamChannelPreview,
     ThemeSwitch,
     TeamChannelList,
@@ -11,17 +10,13 @@ import Cookies from 'universal-cookie';
 
 import { Avatar, IconButton, Tooltip } from '@mui/material';
 import LogoutIcon from '@mui/icons-material/Logout';
-import { ChannelInfo } from '../assests';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-
-import { useNavigate } from 'react-router-dom';
 
 const cookies = new Cookies();
 
 const SideBar = ({ logout, client }) => {
     const [user, setUser] = useState('');
-    let navigate = useNavigate();
 
     const getUser = async () => {
         if (client.user) {
@@ -47,13 +42,13 @@ const SideBar = ({ logout, client }) => {
     }, []);
 
     return (
-        <div className='channel-list__sidebar dark:bg-gray-800 '>
-            {user && <Avatar className='mx-auto mt-5' src={user.image} />}
-            <div className='channel-list__sidebar__icon2 dark:bg-gray-600'>
-                <div className='icon2__inner'>
-                    <Tooltip title='Logout'>
-                        <IconButton onClick={logout} aria-label='delete'>
-                            <LogoutIcon className='dark:text-gray-200' />
+        <div className="channel-list__sidebar dark:bg-gray-800 ">
+            {user && <Avatar className="mx-auto mt-5" src={user.image} />}
+            <div className="channel-list__sidebar__icon2 dark:bg-gray-600">
+                <div className="icon2__inner">
+                    <Tooltip title="Logout">
+                        <IconButton onClick={logout} aria-label="delete">
+                            <LogoutIcon className="dark:text-gray-200" />
                         </IconButton>
                     </Tooltip>
                 </div>
@@ -63,8 +58,8 @@ const SideBar = ({ logout, client }) => {
 };
 
 const CompanyHeader = ({ setMode, mode, setIsModeChanged }) => (
-    <div className='channel-list__header flex justify-between items-center'>
-        <p className='channel-list__header__text dark:text-gray-300'>ReChat</p>
+    <div className="channel-list__header flex justify-between items-center">
+        <p className="channel-list__header__text dark:text-gray-300">ReChat</p>
         <ThemeSwitch
             setMode={setMode}
             setIsModeChanged={setIsModeChanged}
@@ -110,7 +105,7 @@ const ChannelListContent = ({
     return (
         <>
             <SideBar logout={logout} client={client} />
-            <div className='channel-list__list__wrapper dark:bg-gray-900'>
+            <div className="channel-list__list__wrapper dark:bg-gray-900">
                 <CompanyHeader
                     setMode={setMode}
                     setIsModeChanged={setIsModeChanged}
@@ -123,7 +118,7 @@ const ChannelListContent = ({
                     List={(listProps) => (
                         <TeamChannelList
                             {...listProps}
-                            type='team'
+                            type="team"
                             setCreateType={setCreateType}
                             isCreating={isCreating}
                             setIsCreating={setIsCreating}
@@ -134,7 +129,7 @@ const ChannelListContent = ({
                     Preview={(prevProps) => (
                         <TeamChannelPreview
                             {...prevProps}
-                            type='team'
+                            type="team"
                             setToggleContainer={setToggleContainer}
                             setIsCreating={setIsCreating}
                             setIsEditing={setIsEditing}
@@ -147,7 +142,7 @@ const ChannelListContent = ({
                     List={(listProps) => (
                         <TeamChannelList
                             {...listProps}
-                            type='messaging'
+                            type="messaging"
                             setCreateType={setCreateType}
                             isCreating={isCreating}
                             setIsCreating={setIsCreating}
@@ -158,7 +153,7 @@ const ChannelListContent = ({
                     Preview={(prevProps) => (
                         <TeamChannelPreview
                             {...prevProps}
-                            type='messaging'
+                            type="messaging"
                             setToggleContainer={setToggleContainer}
                             setIsCreating={setIsCreating}
                             setIsEditing={setIsEditing}
@@ -180,11 +175,10 @@ const ChannelListContainer = ({
     setIsEditing,
 }) => {
     const [toggleContainer, setToggleContainer] = useState(false);
-    const { client, channel } = useChatContext();
 
     return (
         <>
-            <div className='channel-list__container'>
+            <div className="channel-list__container">
                 <ChannelListContent
                     setMode={setMode}
                     setIsModeChanged={setIsModeChanged}
@@ -196,7 +190,7 @@ const ChannelListContainer = ({
                 />
             </div>
             <div
-                className='channel-list__container-responsive'
+                className="channel-list__container-responsive"
                 style={{
                     left: toggleContainer ? '0%' : '-89%',
                     backgroundColor: '#005fff',
@@ -204,15 +198,15 @@ const ChannelListContainer = ({
             >
                 <div
                     style={{ zIndex: 9999999 }}
-                    className='channerl-list__container-toggle  flex items-center justify-center'
+                    className="channerl-list__container-toggle  flex items-center justify-center"
                     onClick={() => {
                         setToggleContainer((prevState) => !prevState);
                     }}
                 >
                     {toggleContainer ? (
-                        <ArrowBackIcon className='text-white' />
+                        <ArrowBackIcon className="text-white" />
                     ) : (
-                        <ArrowForwardIcon className='text-white' />
+                        <ArrowForwardIcon className="text-white" />
                     )}
                 </div>
                 <ChannelListContent

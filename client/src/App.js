@@ -1,19 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import { StreamChat } from 'stream-chat';
-import { Chat, useChatContext } from 'stream-chat-react';
+import { Chat } from 'stream-chat-react';
 import Cookie from 'universal-cookie';
 import { Auth, ChannelContainer, ChannelListContainer } from './components';
-import axios from 'axios';
+// import axios from 'axios';
 
 import 'stream-chat-react/dist/css/index.css';
 import './App.css';
 
 import { createTheme, ThemeProvider } from '@mui/material';
-import { getBrowser } from './utilities/getBrowser';
-import { storeDataToDB } from './utilities/storeData';
+// import { getBrowser } from './utilities/getBrowser';
+// import { storeDataToDB } from './utilities/storeData';
 
+// eslint-disable-next-line no-undef
 require('dotenv').config();
 const cookies = new Cookie();
+// eslint-disable-next-line no-undef
 const API_KEY = process.env.REACT_APP_STREAM_API_KEY;
 const authToken = cookies.get('token');
 const client = StreamChat.getInstance(API_KEY);
@@ -39,7 +41,9 @@ if (authToken) {
 }
 
 function App() {
+    // eslint-disable-next-line no-unused-vars
     const MODE = localStorage.getItem('mode');
+    // eslint-disable-next-line no-unused-vars
     const [reRender, setReRender] = useState(null);
     const [mode, setMode] = useState();
     // MODE === false || MODE == '' || MODE == null

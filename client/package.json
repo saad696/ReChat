@@ -13,6 +13,7 @@
         "@testing-library/user-event": "^12.8.3",
         "axios": "^0.24.0",
         "dotenv": "^10.0.0",
+        "eslint": "^7.32.0",
         "firebase": "^9.5.0",
         "history": "^5.1.0",
         "moment": "^2.29.1",
@@ -31,7 +32,11 @@
         "start": "craco start",
         "build": "craco build",
         "test": "craco test",
-        "eject": "react-scripts eject"
+        "eject": "react-scripts eject",
+        "lint": "eslint ./src --ext .js",
+        "lint:fix": "npm run lint -- --fix",
+        "prettier:format": "prettier --write \"**/*.+(js|jsx|ts|tsx|json|scss|md)\"",
+        "pre:commit": "npm run lint && npm run prettier:format"
     },
     "eslintConfig": {
         "extends": [
@@ -53,7 +58,14 @@
     },
     "devDependencies": {
         "autoprefixer": "^9.8.8",
+        "eslint-config-prettier": "^8.3.0",
+        "eslint-plugin-import": "^2.25.3",
+        "eslint-plugin-jsx-a11y": "^6.5.1",
+        "eslint-plugin-prettier": "^4.0.0",
+        "eslint-plugin-react": "^7.27.1",
+        "eslint-plugin-react-hooks": "^4.3.0",
         "postcss": "^7.0.39",
+        "prettier": "^2.5.1",
         "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.2.17"
     }
 }

@@ -53,7 +53,7 @@ const ChannelContainer = ({
 
     if (isCreating) {
         return (
-            <div className='channel__container'>
+            <div className="channel__container">
                 <CreateChannel
                     createType={createType}
                     setIsCreating={setIsCreating}
@@ -63,19 +63,22 @@ const ChannelContainer = ({
     }
     if (isEditing) {
         return (
-            <div className='channel__container'>
-                <EditChannel setIsEditing={setIsEditing} createType={createType} />
+            <div className="channel__container">
+                <EditChannel
+                    setIsEditing={setIsEditing}
+                    createType={createType}
+                />
             </div>
         );
     }
 
     const EmptyState = () => {
         return (
-            <div className='channel-empty__container'>
-                <div className='channel-empty__first'>
+            <div className="channel-empty__container">
+                <div className="channel-empty__first">
                     This is the beginning of your chat history.
                 </div>
-                <div className='channel-empty__second'>
+                <div className="channel-empty__second">
                     Send messages, attachments, links, emojis, and more!.
                 </div>
             </div>
@@ -94,7 +97,7 @@ const ChannelContainer = ({
         if (isMyMessage) {
             // If the message belongs to me or is sent by me, the wrap it with `.message-simple-styled-sent`
             return (
-                <div className='message-simple-styled-sent'>
+                <div className="message-simple-styled-sent">
                     <MessageSimple {...props} />
                 </div>
             );
@@ -108,7 +111,7 @@ const ChannelContainer = ({
     };
 
     return channel ? (
-        <div className='channel__container'>
+        <div className="channel__container">
             <Channel
                 onMentionsClick={onMentionsClick}
                 onMentionsHover={onMentionsHover}
@@ -130,21 +133,21 @@ const ChannelContainer = ({
                     <ClickedUser
                         clickedUser={clickedUser}
                         setClickedUser={setClickedUser}
-                        title='Tagged user'
+                        title="Tagged user"
                     />
                 )}
             </Channel>
         </div>
     ) : (
-        <div className='w-100 flex justify-center items-center'>
+        <div className="w-100 flex justify-center items-center">
             <span>
-                <h1 className='text-center text-5xl font-bold sm:text-4xl'>
+                <h1 className="text-center text-5xl font-bold sm:text-4xl">
                     Welcome to ReChat
                 </h1>
-                <p className='text-center text-gray-400 mb-5'>
+                <p className="text-center text-gray-400 mb-5">
                     Connect to people you like, to chat and have fun!
                 </p>
-                <img src={chatBegin} alt='chat-begin' />
+                <img src={chatBegin} alt="chat-begin" />
             </span>
         </div>
     );

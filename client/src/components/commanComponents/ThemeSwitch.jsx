@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react';
 import { styled } from '@mui/material/styles';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -67,7 +68,7 @@ const ThemeSwitch = ({ setMode, setIsModeChanged, mode }) => {
 
     return (
         <>
-            <Tooltip title='Modes: feature will be implemented soon.'>
+            <Tooltip title="Modes: feature will be implemented soon.">
                 <MaterialUISwitch
                     sx={{ m: 1 }}
                     defaultChecked={

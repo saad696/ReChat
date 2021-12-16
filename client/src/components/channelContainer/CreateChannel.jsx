@@ -2,11 +2,7 @@ import React, { useState } from 'react';
 import { CloseCreateChannel } from '../../assests';
 import { NotificationPopup, UserList } from '..';
 import { useChatContext } from 'stream-chat-react';
-import { IconButton } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
-import Cookies from 'universal-cookie';
-
-const cookies = new Cookies();
 
 const ChannelNameInput = ({
     channelName = '',
@@ -28,23 +24,23 @@ const ChannelNameInput = ({
     };
 
     return (
-        <div className='channel-name-input__wrapper'>
-            <p className='mb-2'>Name</p>
+        <div className="channel-name-input__wrapper">
+            <p className="mb-2">Name</p>
             <input
                 value={channelName}
                 onChange={handleChange}
-                placeholder='Channel-name'
+                placeholder="Channel-name"
             />
-            {err && <small className='ml-1 text-red-600'>{err}</small>}
+            {err && <small className="ml-1 text-red-600">{err}</small>}
 
-            <p className='mb-3'>Add Members</p>
+            <p className="mb-3">Add Members</p>
         </div>
     );
 };
 
 const CreateChannel = ({ createType, setIsCreating }) => {
     const [channelName, setChannelName] = useState('');
-    const { client, setActiveChannel, channel } = useChatContext();
+    const { client, setActiveChannel } = useChatContext();
     const [selectedUsers, setSelectedUsers] = useState([client.userID || '']);
     const [error, setError] = useState(0);
     const [err, setErr] = useState('');
@@ -97,7 +93,7 @@ const CreateChannel = ({ createType, setIsCreating }) => {
                 <NotificationPopup
                     setMultipleErrorType={setError}
                     showPopup={error}
-                    message='Something went wrong, please refresh.'
+                    message="Something went wrong, please refresh."
                     Type={1}
                     duration={4000}
                 />
@@ -106,7 +102,7 @@ const CreateChannel = ({ createType, setIsCreating }) => {
                 <NotificationPopup
                     setMultipleErrorType={setError}
                     showPopup={error}
-                    message='Please add users to create a channel.'
+                    message="Please add users to create a channel."
                     Type={3}
                     duration={4000}
                 />
@@ -115,13 +111,13 @@ const CreateChannel = ({ createType, setIsCreating }) => {
                 <NotificationPopup
                     setMultipleErrorType={setError}
                     showPopup={error}
-                    message='Cannot add more that one person to direct messages.'
+                    message="Cannot add more that one person to direct messages."
                     Type={1}
                     duration={4000}
                 />
             )}
-            <div className='create-channel__container'>
-                <div className='create-channel__header'>
+            <div className="create-channel__container">
+                <div className="create-channel__header">
                     <p>
                         {createType === 'team'
                             ? 'Create a New Channel'
@@ -137,12 +133,17 @@ const CreateChannel = ({ createType, setIsCreating }) => {
                         setErr={setErr}
                     />
                 )}
-                <UserList selectedUsers={selectedUsers} setSelectedUsers={setSelectedUsers} type={'create'} createType={createType} />
+                <UserList
+                    selectedUsers={selectedUsers}
+                    setSelectedUsers={setSelectedUsers}
+                    type={'create'}
+                    createType={createType}
+                />
                 <div
-                    className='create-channel__button-wrapper'
+                    className="create-channel__button-wrapper"
                     onClick={createChannel}
                 >
-                    <p className='hover:bg-blue-800 transition-all'>
+                    <p className="hover:bg-blue-800 transition-all">
                         <AddIcon />
                         {createType === 'team'
                             ? 'Create Channel'

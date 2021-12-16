@@ -1,6 +1,5 @@
 import { TextField } from '@mui/material';
-import React, { useEffect, useState } from 'react';
-import { useChatContext } from 'stream-chat-react';
+import React, { useEffect } from 'react';
 
 const ChannelSearch2 = ({
     type,
@@ -10,12 +9,9 @@ const ChannelSearch2 = ({
     client,
     setChannelMembers,
     channel,
-    loading,
     setLoading,
     channelMembers,
 }) => {
-    const [query, setQuery] = useState('');
-
     const onSearch = (event) => {
         event.preventDefault();
         setLoading(true);
@@ -23,7 +19,6 @@ const ChannelSearch2 = ({
             setUsers([]);
             setLoading(false);
         } else if (event.target.value.length > 2) {
-            setQuery(event.target.value);
             if (type === 'edit' && client && channelMembers?.length > 0) {
                 getUsers(event.target.value);
             } else if (type === 'create' && client) {
@@ -86,13 +81,13 @@ const ChannelSearch2 = ({
     return (
         <>
             <TextField
-                size='small'
-                variant='filled'
-                name='search'
+                size="small"
+                variant="filled"
+                name="search"
                 onChange={onSearch}
                 placeholder={'search for people...'}
-                label='search'
-                autoComplete='off'
+                label="search"
+                autoComplete="off"
             />
         </>
     );

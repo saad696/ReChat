@@ -45,7 +45,7 @@ const ListConatiner = ({
             />
             {createType === 'team' && type === 'edit' && (
                 <>
-                    <div className='user-list__header'>
+                    <div className="user-list__header">
                         <p>Existing Users</p>
                     </div>
                     <div style={{ height: '550px', overflowY: 'scroll' }}>
@@ -54,7 +54,7 @@ const ListConatiner = ({
                                 key={user.user.id}
                                 index={i}
                                 user={user.user}
-                                type='existing'
+                                type="existing"
                             />
                         ))}
                     </div>
@@ -63,7 +63,7 @@ const ListConatiner = ({
             )}
             {createType === 'team' && _selectedUsers.length > 1 && (
                 <>
-                    <div className='user-list__header'>
+                    <div className="user-list__header">
                         <p>Selected Users</p>
                         <p>Selected</p>
                     </div>
@@ -75,16 +75,16 @@ const ListConatiner = ({
                                         key={user.id}
                                         index={i}
                                         user={user}
-                                        type='selected'
+                                        type="selected"
                                     />
                                 )
                         )}
                     </div>
-                    <hr className='mt-3' />
+                    <hr className="mt-3" />
                 </>
             )}
-            <div className='user-list__container'>
-                <div className='user-list__header'>
+            <div className="user-list__container">
+                <div className="user-list__header">
                     <p>Users</p>
                     <p>Invite</p>
                 </div>
@@ -120,7 +120,7 @@ const UserList = ({ selectedUsers, setSelectedUsers, type, createType }) => {
                 createType={createType}
             >
                 {users.length === 0 && !showPopup && !listEmpty && !loading && (
-                    <div className='user-list__message font-extrabold text-gray-300 flex justify-center'>
+                    <div className="user-list__message font-extrabold text-gray-300 flex justify-center">
                         Search for people you wanna add.
                     </div>
                 )}
@@ -129,11 +129,11 @@ const UserList = ({ selectedUsers, setSelectedUsers, type, createType }) => {
                         <NotificationPopup
                             setShowPopup={setShowPopup}
                             showPopup={showPopup}
-                            message='Something went wrong!'
+                            message="Something went wrong!"
                             Type={1}
                             duration={10000}
                         />
-                        <div className='user-list__message font-extrabold text-gray-300 flex justify-center'>
+                        <div className="user-list__message font-extrabold text-gray-300 flex justify-center">
                             Error loading, please try again by refreshing the
                             page.
                         </div>
@@ -144,20 +144,20 @@ const UserList = ({ selectedUsers, setSelectedUsers, type, createType }) => {
                         <NotificationPopup
                             setShowPopup={setShowPopup}
                             showPopup={showPopup}
-                            message='No users found!'
+                            message="No users found!"
                             Type={2}
                             duration={10000}
                         />
-                        <div className='user-list__message font-extrabold text-gray-300 flex justify-center'>
+                        <div className="user-list__message font-extrabold text-gray-300 flex justify-center">
                             No users found!
                         </div>
                     </>
                 )}
                 {loading ? (
-                    <div className='user-list__message flex justify-center items-center'>
-                        <CircularProgress size='small' />
-                        <p className='ml-2 flex items-center'>
-                            <CircularProgress size={20} className='mr-2' />
+                    <div className="user-list__message flex justify-center items-center">
+                        <CircularProgress size="small" />
+                        <p className="ml-2 flex items-center">
+                            <CircularProgress size={20} className="mr-2" />
                             Loading users...
                         </p>
                     </div>
