@@ -1,6 +1,5 @@
 import * as React from 'react';
 import MenuItem from '@mui/material/MenuItem';
-import ListItemIcon from '@mui/material/ListItemIcon';
 
 import { Menu, Tooltip } from '@mui/material';
 import moment from 'moment';
@@ -19,13 +18,13 @@ export default function UsersMenu({
     };
 
     const openUserDrawer = () => {
-        handleClose()
+        handleClose();
         return (
             <ClickedUser
                 setClickedUser={setClickedUser}
                 clickedUser={clickedUser}
-                title='Team member'
-                type='from-channel'
+                title="Team member"
+                type="from-channel"
             />
         );
     };
@@ -33,7 +32,7 @@ export default function UsersMenu({
     return (
         <>
             <Menu
-                id='user-menu'
+                id="user-menu"
                 anchorEl={anchorRef}
                 open={isOpen}
                 onClose={handleClose}
@@ -119,13 +118,13 @@ export default function UsersMenu({
                     };
                     return (
                         <MenuItem
-                            className='block'
+                            className="block"
                             key={member.id}
                             onClick={() => {
                                 onUserClick(member);
                             }}
                         >
-                            <span className='flex w-100'>
+                            <span className="flex w-100">
                                 <Tooltip
                                     title={
                                         !member?.user.online
@@ -133,16 +132,22 @@ export default function UsersMenu({
                                             : 'online'
                                     }
                                 >
-                                    <Avatar image={member.user.image}  name={member.user.name || member.user.fullName} />
+                                    <Avatar
+                                        image={member.user.image}
+                                        name={
+                                            member.user.name ||
+                                            member.user.fullName
+                                        }
+                                    />
                                 </Tooltip>
-                                <span className='flex items-center'>
-                                    <p className='text-black font-bold'>
+                                <span className="flex items-center">
+                                    <p className="text-black font-bold">
                                         {member.user.name}
                                     </p>
                                     {member.user.online ? (
-                                        <div className='online w-2 h-2 bg-green-600 rounded ml-2'></div>
+                                        <div className="online w-2 h-2 bg-green-600 rounded ml-2"></div>
                                     ) : (
-                                        <div className='offline w-2 h-2 bg-gray-400 rounded ml-2'></div>
+                                        <div className="offline w-2 h-2 bg-gray-400 rounded ml-2"></div>
                                     )}
                                 </span>
                             </span>{' '}

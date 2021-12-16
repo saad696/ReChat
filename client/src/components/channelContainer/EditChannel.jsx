@@ -1,10 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { UserList } from '../index';
 import { CloseCreateChannel } from '../../assests';
 import { useChatContext } from 'stream-chat-react';
-import Cookies from 'universal-cookie';
-
-const cookies = new Cookies();
 
 const ChannelNameInput = ({ channelName = '', setChannelName }) => {
     const [err, setErr] = useState('');
@@ -22,16 +19,16 @@ const ChannelNameInput = ({ channelName = '', setChannelName }) => {
     };
 
     return (
-        <div className='channel-name-input__wrapper'>
-            <p className='mb-2'>Name</p>
+        <div className="channel-name-input__wrapper">
+            <p className="mb-2">Name</p>
             <input
                 value={channelName}
                 onChange={handleChange}
-                placeholder='Channel-name'
+                placeholder="Channel-name"
             />
-            {err && <small className='ml-1 text-red-600'>{err}</small>}
+            {err && <small className="ml-1 text-red-600">{err}</small>}
 
-            <p className='mb-3'>Add Members</p>
+            <p className="mb-3">Add Members</p>
         </div>
     );
 };
@@ -58,6 +55,7 @@ const EditChannel = ({ setIsEditing, createType }) => {
             const response = await client.queryUsers({
                 id: { $in: [...selectedUsers] },
             });
+            // eslint-disable-next-line no-unused-vars
             const result = await channel.addMembers(selectedUsers, {
                 text: `${response.users[0].name} Added to party`,
             });
@@ -69,8 +67,8 @@ const EditChannel = ({ setIsEditing, createType }) => {
     };
 
     return (
-        <div className='edit-channel__container'>
-            <div className='edit-channel__header py-3'>
+        <div className="edit-channel__container">
+            <div className="edit-channel__header py-3">
                 <p>Edit Channel</p>
                 <CloseCreateChannel setIsEditing={setIsEditing} />
             </div>
@@ -78,9 +76,14 @@ const EditChannel = ({ setIsEditing, createType }) => {
                 channelName={channelName}
                 setChannelName={setChannelName}
             />
-            <UserList selectedUsers={selectedUsers} setSelectedUsers={setSelectedUsers} type={'edit'} createType={createType} />
+            <UserList
+                selectedUsers={selectedUsers}
+                setSelectedUsers={setSelectedUsers}
+                type={'edit'}
+                createType={createType}
+            />
             <div
-                className='edit-channel__button-wrapper pb-2 pt-3'
+                className="edit-channel__button-wrapper pb-2 pt-3"
                 onClick={updateChannel}
             >
                 <p>Save Changes</p>

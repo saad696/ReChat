@@ -3,15 +3,22 @@ import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 
 const Alert = React.forwardRef(function Alert(props, ref) {
-    return <MuiAlert elevation={6} ref={ref} variant='filled' {...props} />;
+    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
-const NotificationPopup = ({ showPopup, setShowPopup, message, Type, duration, setMultipleErrorType }) => {
+const NotificationPopup = ({
+    showPopup,
+    setShowPopup,
+    message,
+    Type,
+    duration,
+    setMultipleErrorType,
+}) => {
     const handleClose = () => {
-        if(setShowPopup){
+        if (setShowPopup) {
             setShowPopup(false);
         } else {
-            setMultipleErrorType(0)
+            setMultipleErrorType(0);
         }
     };
 
@@ -36,7 +43,7 @@ const NotificationPopup = ({ showPopup, setShowPopup, message, Type, duration, s
                 autoHideDuration={duration}
                 onClose={handleClose}
             >
-                <Alert onClose={handleClose} severity={type} >
+                <Alert onClose={handleClose} severity={type}>
                     {message}
                 </Alert>
             </Snackbar>

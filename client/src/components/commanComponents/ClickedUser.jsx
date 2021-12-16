@@ -7,6 +7,7 @@ import { useState } from 'react';
 const ClickedUser = ({ clickedUser, setClickedUser, title, type }) => {
     const defautFontSize = { fontSize: 14 };
     const { client, setActiveChannel } = useChatContext();
+    // eslint-disable-next-line no-unused-vars
     const [selectedUsers, setSelectedUsers] = useState([
         client.userID || '',
         type === 'from-channel' ? clickedUser.user_id : clickedUser.id,
@@ -87,15 +88,15 @@ const ClickedUser = ({ clickedUser, setClickedUser, title, type }) => {
             open={clickedUser}
             onClose={() => setClickedUser(undefined)}
         >
-            <div className='ml-2 mb-2 font-bold text-white'>{title}</div> <hr />
-            <div className='inner flex justify-center px-10'>
+            <div className="ml-2 mb-2 font-bold text-white">{title}</div> <hr />
+            <div className="inner flex justify-center px-10">
                 {type === 'from-channel' ? (
                     <Avatar image={clickedUser?.user.image} size={140} />
                 ) : (
                     <Avatar image={clickedUser?.image} size={140} />
                 )}
                 <div>
-                    <div className='name justify-center' style={defautFontSize}>
+                    <div className="name justify-center" style={defautFontSize}>
                         Name:{' '}
                         {
                             <p style={defautFontSize}>
@@ -110,17 +111,17 @@ const ClickedUser = ({ clickedUser, setClickedUser, title, type }) => {
                                     ? clickedUser.user.online
                                     : clickedUser.online
                             ) ? (
-                                <Tooltip title='Online'>
-                                    <div className='online w-2 h-2 bg-green-600 rounded'></div>
+                                <Tooltip title="Online">
+                                    <div className="online w-2 h-2 bg-green-600 rounded"></div>
                                 </Tooltip>
                             ) : (
                                 <Tooltip title={`Last seen: ${lastSeen()}`}>
-                                    <div className='offline w-2 h-2 bg-gray-400 rounded'></div>
+                                    <div className="offline w-2 h-2 bg-gray-400 rounded"></div>
                                 </Tooltip>
                             )}
                         </div>
                     </div>
-                    <div className='role justify-center' style={defautFontSize}>
+                    <div className="role justify-center" style={defautFontSize}>
                         Role:{' '}
                         {
                             <p style={defautFontSize}>
@@ -130,22 +131,22 @@ const ClickedUser = ({ clickedUser, setClickedUser, title, type }) => {
                             </p>
                         }
                     </div>
-                    <div className='id justify-center' style={defautFontSize}>
+                    <div className="id justify-center" style={defautFontSize}>
                         {!clickedUser.user.online && (
                             <>
                                 <p>Last Seen: </p>
-                                <p className='text-gray-300'>{lastSeen()}</p>
+                                <p className="text-gray-300">{lastSeen()}</p>
                             </>
                         )}
                     </div>
                 </div>
             </div>
-            <div className='flex justify-center'>
+            <div className="flex justify-center">
                 <Button
                     endIcon={<SendIcon />}
-                    variant='contained'
-                    size='small'
-                    className='w-50'
+                    variant="contained"
+                    size="small"
+                    className="w-50"
                     onClick={directMessage}
                 >
                     Direct Message

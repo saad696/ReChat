@@ -14,10 +14,7 @@ import {
 import { ChannelInfo } from '..//../assests';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import UsersMenu from '../commanComponents/UsersMenu';
-import Cookies from 'universal-cookie';
 import { NotificationPopup } from '..';
-
-const cookies = new Cookies();
 
 export const GiphyContext = React.createContext({});
 
@@ -86,9 +83,9 @@ const TeamChannelHeader = ({
     setIsOpen,
     isOpen,
     channelMembers,
-    setOpenNoti
+    setOpenNoti,
 }) => {
-    const { channel, watcher_count } = useChannelStateContext();
+    const { channel } = useChannelStateContext();
     const { client } = useChatContext();
 
     const [usersOnline, setUsersOnline] = useState();
@@ -115,11 +112,11 @@ const TeamChannelHeader = ({
 
         if (channel.type === 'messaging') {
             return (
-                <div className='team-channel-header__name-wrapper'>
+                <div className="team-channel-header__name-wrapper">
                     {members.map(({ user }, i) => (
                         <div
                             key={i}
-                            className='team-channel-header__name-multi'
+                            className="team-channel-header__name-multi"
                         >
                             <Avatar
                                 image={user.image}
@@ -127,7 +124,7 @@ const TeamChannelHeader = ({
                                 size={32}
                             />
                             <div>
-                                <p className='team-channel-header__name user font-bold'>
+                                <p className="team-channel-header__name user font-bold">
                                     {user.name || user.fullName}
                                 </p>
                             </div>
@@ -135,7 +132,7 @@ const TeamChannelHeader = ({
                     ))}
 
                     {additionalMembers > 0 && (
-                        <p className='team-channel-header__name user'>
+                        <p className="team-channel-header__name user">
                             and {additionalMembers} more
                         </p>
                     )}
@@ -145,8 +142,8 @@ const TeamChannelHeader = ({
 
         return (
             <>
-                <div className='team-channel-header__channel-wrapper'>
-                    <p className='team-channel-header__name'>
+                <div className="team-channel-header__channel-wrapper">
+                    <p className="team-channel-header__name">
                         # {channel.data.name}
                     </p>
                     <IconButton
@@ -154,7 +151,7 @@ const TeamChannelHeader = ({
                             isAdmin ? setIsEditing(true) : setOpenNoti(true);
                         }}
                     >
-                        <MoreVertIcon fontSize='small' />
+                        <MoreVertIcon fontSize="small" />
                     </IconButton>
                 </div>
             </>
@@ -183,11 +180,11 @@ const TeamChannelHeader = ({
     };
     const anchorRef = React.useRef(null);
     return (
-        <div className='team-channel-header__container'>
+        <div className="team-channel-header__container">
             <MessagingHeader />
-            <div className='team-channel-header__right flex'>
+            <div className="team-channel-header__right flex">
                 {channel.type !== 'messaging' && (
-                    <p className='team-channel-header__right-text mr-2'>
+                    <p className="team-channel-header__right-text mr-2">
                         {usersOnline === 1
                             ? `1 user online`
                             : `${usersOnline} users online`}
