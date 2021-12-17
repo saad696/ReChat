@@ -45,6 +45,22 @@ Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
+### `npm run lint`
+
+Will put eslint to check on the code and will throw error if found any.
+
+### `npm run lint:fix`
+
+Will fix all the auto fixable linting issues.
+
+### `npm run prettier:format`
+
+Will prettify the code based on rules defined in .prettierrc file.
+
+### `npm run pre:commit`
+
+If you want to commit code you might need to run this script before. This script will run lint:fix and prettier:format together.
+
 ## Available Scripts for server
 
 In the client directory, you can run:
