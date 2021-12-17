@@ -1,11 +1,6 @@
 import React, { useState } from 'react';
 import Cookies from 'universal-cookie';
 import axios from 'axios';
-import {
-    getAuth,
-    RecaptchaVerifier,
-    signInWithPhoneNumber,
-} from 'firebase/auth';
 import { NotificationPopup, ThemeSwitch } from '.';
 import {
     TextField,
@@ -19,9 +14,12 @@ import {
     Button,
 } from '@mui/material';
 
+import LoadingButton from '@mui/lab/LoadingButton';
+
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import useWindowDimensions from '../hooks/use-window-dimensions';
+import { auth, RecaptchaVerifierFirebase, signInWithPno } from '../firebase';
 
 const cookies = new Cookies();
 
@@ -41,6 +39,7 @@ const Auth = ({ setMode, mode, setIsModeChanged }) => {
     const [msg, setMsg] = useState(0);
     const [OTPsend, setOTPsend] = useState(false);
     const [validationErr, setValidationErr] = useState(0);
+    const [loading, setLoading] = useState(false);
 
     // eslint-disable-next-line no-unused-vars
     const { width, height } = useWindowDimensions();
@@ -57,8 +56,7 @@ const Auth = ({ setMode, mode, setIsModeChanged }) => {
     };
 
     const configureCaptcha = () => {
-        const auth = getAuth();
-        window.recaptchaVerifier = new RecaptchaVerifier(
+        window.recaptchaVerifier = new RecaptchaVerifierFirebase(
             'sign-in-button',
             {
                 size: 'invisible',
@@ -75,6 +73,7 @@ const Auth = ({ setMode, mode, setIsModeChanged }) => {
 
     const handleSubmit = async (e) => {
         e?.preventDefault();
+        setLoading(true);
         if (isSignup && form.password !== form.confirmPassword) {
             setValidationErr(4);
         } else if (isSignup && form.phoneNumber.length > 10) {
@@ -87,9 +86,7 @@ const Auth = ({ setMode, mode, setIsModeChanged }) => {
 
                 const _phoneNumber = `+91${phoneNumber}`;
                 const appVerifier = window.recaptchaVerifier;
-
-                const auth = getAuth();
-                signInWithPhoneNumber(auth, _phoneNumber, appVerifier)
+                signInWithPno(auth, _phoneNumber, appVerifier)
                     .then((confirmationResult) => {
                         // SMS sent. Prompt user to type the code from the message, then sign the
                         // user in with confirmationResult.confirm(code).
@@ -102,6 +99,7 @@ const Auth = ({ setMode, mode, setIsModeChanged }) => {
                     .catch(() => {
                         setMsg(2);
                         setOTPsend(false);
+                        setLoading(false);
                     });
             } else {
                 // for login
@@ -130,13 +128,16 @@ const Auth = ({ setMode, mode, setIsModeChanged }) => {
                     window.location.reload();
                 } catch (error) {
                     setMsg(4);
+                    setLoading(false);
                 }
             }
         }
+        setLoading(false);
     };
 
     const onVerifyOTP = (e) => {
         e?.preventDefault();
+        setLoading(true);
         const code = form.otp;
         window.confirmationResult
             .confirm(code)
@@ -170,7 +171,9 @@ const Auth = ({ setMode, mode, setIsModeChanged }) => {
             })
             .catch(() => {
                 setMsg(3);
+                setLoading(false);
             });
+        setLoading(false);
     };
 
     const swicthMode = () => {
@@ -235,34 +238,36 @@ const Auth = ({ setMode, mode, setIsModeChanged }) => {
                             </div>
                             <div className="auth__form-container_fields-content dark:bg-gray-700 shadow-lg">
                                 <p className="dark:text-gray-300">
-                                    <div className="flex justify-between">
-                                        <Button
-                                            onClick={() => {
-                                                setIsSignup(true);
-                                                setForm(initialState);
-                                            }}
-                                            variant="text"
-                                            size="large"
-                                            fullWidth
-                                        >
-                                            <span className="font-bold">
-                                                Sign Up
-                                            </span>
-                                        </Button>
-                                        <Button
-                                            onClick={() => {
-                                                setIsSignup(false);
-                                                setForm(initialState);
-                                            }}
-                                            variant="text"
-                                            size="large"
-                                            fullWidth
-                                        >
-                                            <span className="font-bold">
-                                                Sign In
-                                            </span>
-                                        </Button>
-                                    </div>
+                                    {!OTPsend && (
+                                        <div className="flex justify-between">
+                                            <Button
+                                                onClick={() => {
+                                                    setIsSignup(true);
+                                                    setForm(initialState);
+                                                }}
+                                                variant="text"
+                                                size="large"
+                                                fullWidth
+                                            >
+                                                <span className="font-bold">
+                                                    Sign Up
+                                                </span>
+                                            </Button>
+                                            <Button
+                                                onClick={() => {
+                                                    setIsSignup(false);
+                                                    setForm(initialState);
+                                                }}
+                                                variant="text"
+                                                size="large"
+                                                fullWidth
+                                            >
+                                                <span className="font-bold">
+                                                    Sign In
+                                                </span>
+                                            </Button>
+                                        </div>
+                                    )}
                                     {!OTPsend && (
                                         <form onSubmit={handleSubmit}>
                                             <div id="sign-in-button"></div>
@@ -488,7 +493,8 @@ const Auth = ({ setMode, mode, setIsModeChanged }) => {
                                                 </Grid>
                                             </div>
 
-                                            <Button
+                                            <LoadingButton
+                                                loading={loading}
                                                 type="submit"
                                                 variant={
                                                     mode === 'dark'
@@ -499,10 +505,10 @@ const Auth = ({ setMode, mode, setIsModeChanged }) => {
                                                 {isSignup
                                                     ? 'Sign Up'
                                                     : 'Sign In'}
-                                            </Button>
+                                            </LoadingButton>
                                         </form>
                                     )}
-                                    {OTPsend && (
+                                    {OTPsend && isSignup && (
                                         <form
                                             onSubmit={onVerifyOTP}
                                             className="mt-3"
@@ -519,7 +525,8 @@ const Auth = ({ setMode, mode, setIsModeChanged }) => {
                                                     required
                                                 />
                                             </Grid>
-                                            <Button
+                                            <LoadingButton
+                                                loading={loading}
                                                 type="submit"
                                                 variant={
                                                     mode === 'dark'
@@ -528,24 +535,26 @@ const Auth = ({ setMode, mode, setIsModeChanged }) => {
                                                 }
                                             >
                                                 Verify OTP
-                                            </Button>
+                                            </LoadingButton>
                                         </form>
                                     )}
-                                    <div className="auth__form-container_fields-account mt-3">
-                                        <p className="dark:text-gray-400">
-                                            {isSignup
-                                                ? 'Already have an account?'
-                                                : "Dont't have an account?"}
-                                            <span
-                                                onClick={swicthMode}
-                                                className="ml-1 dark:text-blue-500 dark:hover:text-blue-700 underline"
-                                            >
+                                    {!OTPsend && (
+                                        <div className="auth__form-container_fields-account mt-3">
+                                            <p className="dark:text-gray-400">
                                                 {isSignup
-                                                    ? 'Sign Up'
-                                                    : 'Sign In'}
-                                            </span>
-                                        </p>
-                                    </div>
+                                                    ? 'Already have an account?'
+                                                    : "Dont't have an account?"}
+                                                <span
+                                                    onClick={swicthMode}
+                                                    className="ml-1 dark:text-blue-500 dark:hover:text-blue-700 underline"
+                                                >
+                                                    {isSignup
+                                                        ? 'Sign Up'
+                                                        : 'Sign In'}
+                                                </span>
+                                            </p>
+                                        </div>
+                                    )}
                                 </p>
                             </div>
                         </Grid>

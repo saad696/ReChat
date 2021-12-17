@@ -38,6 +38,15 @@ const EditChannel = ({ setIsEditing, createType }) => {
     const [channelName, setChannelName] = useState(channel?.data?.name);
     const [selectedUsers, setSelectedUsers] = useState([]);
 
+    const addedMembers = (users) => {
+        const addedUsers = [];
+        users.forEach((user) => {
+            addedUsers.push(user.name);
+        });
+
+        return addedUsers.toString();
+    };
+
     const updateChannel = async (e) => {
         e.preventDefault();
 
@@ -57,10 +66,13 @@ const EditChannel = ({ setIsEditing, createType }) => {
             });
             // eslint-disable-next-line no-unused-vars
             const result = await channel.addMembers(selectedUsers, {
-                text: `${response.users[0].name} Added to party`,
+                text: `${
+                    response.users.length === 1
+                        ? response.users[0].name
+                        : addedMembers(response.users)
+                } Added to party`,
             });
         }
-
         setChannelName(null);
         setIsEditing(false);
         setSelectedUsers([]);
