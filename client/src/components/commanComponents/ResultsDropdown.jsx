@@ -1,6 +1,8 @@
-import { CircularProgress } from '@mui/material';
+import { CircularProgress, IconButton } from '@mui/material';
 import React from 'react';
 import { Avatar, useChatContext } from 'stream-chat-react';
+import useWindowDimensions from '../../hooks/use-window-dimensions.ts';
+import CancelIcon from '@mui/icons-material/Cancel';
 
 const channelByUser = async ({
     client,
@@ -33,8 +35,11 @@ const SearchResult = ({
     type,
     setChannel,
     setToggleContainer,
+    handleAppbarChange,
 }) => {
     const { client, setActiveChannel } = useChatContext();
+    // eslint-disable-next-line no-unused-vars
+    const { width, height } = useWindowDimensions();
     if (type === 'channel') {
         return (
             <div
@@ -42,6 +47,9 @@ const SearchResult = ({
                     setChannel(channel);
                     if (setToggleContainer) {
                         setToggleContainer((prevState) => !prevState);
+                    }
+                    if (width < 768) {
+                        handleAppbarChange('_', 2);
                     }
                 }}
                 className={
@@ -103,10 +111,17 @@ const ResultsDropdown = ({
     loading,
     setChannel,
     setToggleContainer,
+    handleAppbarChange,
+    queryNull,
 }) => {
     return (
-        <div className="channel-search__results">
-            <p className="channel-search__results-header">Channels</p>
+        <div className="channel-search__results p-4">
+            <div className="flex justify-between">
+                <p className="channel-search__results-header">Channels</p>
+                <IconButton onClick={queryNull}>
+                    <CancelIcon />{' '}
+                </IconButton>
+            </div>
             {loading && !teamChannels.length && (
                 <CircularProgress size={20} className="ml-3 mv-2" />
             )}
@@ -123,6 +138,7 @@ const ResultsDropdown = ({
                         setChannel={setChannel}
                         type="channel"
                         setToggleContainer={setToggleContainer}
+                        handleAppbarChange={handleAppbarChange}
                     />
                 ))
             )}
@@ -143,6 +159,7 @@ const ResultsDropdown = ({
                         setChannel={setChannel}
                         type="user"
                         setToggleContainer={setToggleContainer}
+                        handleAppbarChange={handleAppbarChange}
                     />
                 ))
             )}

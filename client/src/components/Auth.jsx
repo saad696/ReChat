@@ -21,6 +21,7 @@ import {
 
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import useWindowDimensions from '../hooks/use-window-dimensions';
 
 const cookies = new Cookies();
 
@@ -40,6 +41,9 @@ const Auth = ({ setMode, mode, setIsModeChanged }) => {
     const [msg, setMsg] = useState(0);
     const [OTPsend, setOTPsend] = useState(false);
     const [validationErr, setValidationErr] = useState(0);
+
+    // eslint-disable-next-line no-unused-vars
+    const { width, height } = useWindowDimensions();
 
     const handleClickShowPassword = () => {
         setShowPassword(!showPassword);
@@ -217,7 +221,7 @@ const Auth = ({ setMode, mode, setIsModeChanged }) => {
                     <Grid container spacing={1} justifyContent="center">
                         <Grid xs={12} md={6}>
                             <Typography
-                                variant="h2"
+                                variant={width < 768 ? 'h4' : 'h2'}
                                 className="font-extrabold pb-4 dark:text-blue-800 text-gray-300"
                             >
                                 Welcome to ReChat

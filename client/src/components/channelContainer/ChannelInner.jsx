@@ -13,12 +13,20 @@ import {
 
 import { ChannelInfo } from '..//../assests';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import UsersMenu from '../commanComponents/UsersMenu';
 import { NotificationPopup } from '..';
+import useWindowDimensions from '../../hooks/use-window-dimensions.ts';
 
 export const GiphyContext = React.createContext({});
 
-const ChannelInner = ({ setIsEditing, isOpen, setIsOpen, channelMembers }) => {
+const ChannelInner = ({
+    setIsEditing,
+    isOpen,
+    setIsOpen,
+    channelMembers,
+    handleAppbarChange,
+}) => {
     const [giphyState, setGiphyState] = useState(false);
     const [openNoti, setOpenNoti] = useState(false);
     const { sendMessage } = useChannelActionContext();
@@ -65,6 +73,7 @@ const ChannelInner = ({ setIsEditing, isOpen, setIsOpen, channelMembers }) => {
                             setIsOpen={setIsOpen}
                             channelMembers={channelMembers}
                             setOpenNoti={setOpenNoti}
+                            handleAppbarChange={handleAppbarChange}
                         />
                         <MessageList onlySenderCanEdit={true} />
                         <MessageInput
@@ -84,9 +93,12 @@ const TeamChannelHeader = ({
     isOpen,
     channelMembers,
     setOpenNoti,
+    handleAppbarChange,
 }) => {
     const { channel } = useChannelStateContext();
     const { client } = useChatContext();
+    // eslint-disable-next-line no-unused-vars
+    const { width, height } = useWindowDimensions();
 
     const [usersOnline, setUsersOnline] = useState();
 
@@ -112,38 +124,62 @@ const TeamChannelHeader = ({
 
         if (channel.type === 'messaging') {
             return (
-                <div className="team-channel-header__name-wrapper">
-                    {members.map(({ user }, i) => (
-                        <div
-                            key={i}
-                            className="team-channel-header__name-multi"
-                        >
-                            <Avatar
-                                image={user.image}
-                                name={user.name || user.fullName}
-                                size={32}
-                            />
-                            <div>
-                                <p className="team-channel-header__name user font-bold">
-                                    {user.name || user.fullName}
-                                </p>
+                <>
+                    <div className="team-channel-header__name-wrapper">
+                        {width < 768 && (
+                            <IconButton
+                                onClick={() => {
+                                    if (width < 768) {
+                                        handleAppbarChange('_', 1);
+                                    }
+                                }}
+                            >
+                                <ArrowBackIcon fontSize="small" />
+                            </IconButton>
+                        )}
+                        {members.map(({ user }, i) => (
+                            <div
+                                key={i}
+                                className="team-channel-header__name-multi ml-2"
+                            >
+                                <Avatar
+                                    image={user.image}
+                                    name={user.name || user.fullName}
+                                    size={32}
+                                />
+                                <div>
+                                    <p className="team-channel-header__name user font-bold">
+                                        {user.name || user.fullName}
+                                    </p>
+                                </div>
                             </div>
-                        </div>
-                    ))}
+                        ))}
 
-                    {additionalMembers > 0 && (
-                        <p className="team-channel-header__name user">
-                            and {additionalMembers} more
-                        </p>
-                    )}
-                </div>
+                        {additionalMembers > 0 && (
+                            <p className="team-channel-header__name user">
+                                and {additionalMembers} more
+                            </p>
+                        )}
+                    </div>
+                </>
             );
         }
 
         return (
             <>
                 <div className="team-channel-header__channel-wrapper">
-                    <p className="team-channel-header__name">
+                    {width < 768 && (
+                        <IconButton
+                            onClick={() => {
+                                if (width < 768) {
+                                    handleAppbarChange('_', 1);
+                                }
+                            }}
+                        >
+                            <ArrowBackIcon fontSize="small" />
+                        </IconButton>
+                    )}
+                    <p className="team-channel-header__name ml-2">
                         # {channel.data.name}
                     </p>
                     <IconButton
@@ -184,10 +220,10 @@ const TeamChannelHeader = ({
             <MessagingHeader />
             <div className="team-channel-header__right flex">
                 {channel.type !== 'messaging' && (
-                    <p className="team-channel-header__right-text mr-2">
+                    <p className="team-channel-header__right-text">
                         {usersOnline === 1
-                            ? `1 user online`
-                            : `${usersOnline} users online`}
+                            ? `1 online`
+                            : `${usersOnline} online`}
                     </p>
                 )}
                 <IconButton
