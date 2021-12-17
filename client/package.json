@@ -36,7 +36,7 @@
         "lint": "eslint ./src --ext .js",
         "lint:fix": "npm run lint -- --fix",
         "prettier:format": "prettier --write \"**/*.+(js|jsx|ts|tsx|json|scss|md)\"",
-        "pre:commit": "npm run lint && npm run prettier:format"
+        "pre:commit": "npm run lint:fix && npm run prettier:format"
     },
     "eslintConfig": {
         "extends": [
