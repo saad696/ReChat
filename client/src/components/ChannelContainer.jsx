@@ -22,6 +22,7 @@ const ChannelContainer = ({
     setIsCreating,
     setIsEditing,
     createType,
+    handleAppbarChange,
 }) => {
     const { channel } = useChatContext();
     const [clickedUser, setClickedUser] = useState();
@@ -128,6 +129,7 @@ const ChannelContainer = ({
                     isOpen={isOpen}
                     setIsOpen={setIsOpen}
                     channelMembers={channelMembers}
+                    handleAppbarChange={handleAppbarChange}
                 />
                 {clickedUser && (
                     <ClickedUser

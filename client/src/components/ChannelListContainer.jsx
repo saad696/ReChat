@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react';
 import { ChannelList, useChatContext } from 'stream-chat-react';
 import {
@@ -5,13 +6,14 @@ import {
     TeamChannelPreview,
     ThemeSwitch,
     TeamChannelList,
+    ChannelListContentSm,
 } from './';
 import Cookies from 'universal-cookie';
 
 import { Avatar, IconButton, Tooltip } from '@mui/material';
 import LogoutIcon from '@mui/icons-material/Logout';
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+
+import useWindowDimensions from '../hooks/use-window-dimensions.ts';
 
 const cookies = new Cookies();
 
@@ -173,53 +175,41 @@ const ChannelListContainer = ({
     isCreating,
     setIsCreating,
     setIsEditing,
+    handleAppbarChange,
 }) => {
     const [toggleContainer, setToggleContainer] = useState(false);
+    const { client, channel } = useChatContext();
+    const { width, height } = useWindowDimensions();
 
     return (
         <>
-            <div className="channel-list__container">
-                <ChannelListContent
-                    setMode={setMode}
-                    setIsModeChanged={setIsModeChanged}
-                    mode={mode}
-                    setCreateType={setCreateType}
-                    isCreating={isCreating}
-                    setIsCreating={setIsCreating}
-                    setIsEditing={setIsEditing}
-                />
-            </div>
-            <div
-                className="channel-list__container-responsive"
-                style={{
-                    left: toggleContainer ? '0%' : '-89%',
-                    backgroundColor: '#005fff',
-                }}
-            >
+            {width > 768 ? (
                 <div
-                    style={{ zIndex: 9999999 }}
-                    className="channerl-list__container-toggle  flex items-center justify-center"
-                    onClick={() => {
-                        setToggleContainer((prevState) => !prevState);
-                    }}
+                    className={`channel-list__container  ${
+                        width < 768 && 'pb-14'
+                    }`}
                 >
-                    {toggleContainer ? (
-                        <ArrowBackIcon className="text-white" />
-                    ) : (
-                        <ArrowForwardIcon className="text-white" />
-                    )}
+                    <ChannelListContent
+                        setMode={setMode}
+                        setIsModeChanged={setIsModeChanged}
+                        mode={mode}
+                        setCreateType={setCreateType}
+                        isCreating={isCreating}
+                        setIsCreating={setIsCreating}
+                        setIsEditing={setIsEditing}
+                    />
                 </div>
-                <ChannelListContent
-                    setMode={setMode}
-                    setIsModeChanged={setIsModeChanged}
-                    mode={mode}
+            ) : (
+                <ChannelListContentSm
                     setCreateType={setCreateType}
                     isCreating={isCreating}
                     setIsCreating={setIsCreating}
                     setIsEditing={setIsEditing}
-                    setToggleContainer={setToggleContainer}
+                    handleAppbarChange={handleAppbarChange}
+                    customChannelTeamFilter={customChannelTeamFilter}
+                    customChannelMessagingFilter={customChannelMessagingFilter}
                 />
-            </div>
+            )}
         </>
     );
 };

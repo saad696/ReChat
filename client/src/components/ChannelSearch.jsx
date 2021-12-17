@@ -4,7 +4,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import { ErrorHandler, ResultsDropdown } from '.';
 import { useChatContext } from 'stream-chat-react';
 
-const ChannelSearch = ({ setToggleContainer }) => {
+const ChannelSearch = ({ setToggleContainer, handleAppbarChange }) => {
     const [query, setQuery] = useState('');
     const [loading, setLoading] = useState(false);
     const [teamChannels, setTeamChannels] = useState([]);
@@ -67,6 +67,8 @@ const ChannelSearch = ({ setToggleContainer }) => {
         setActiveChannel(channel);
     };
 
+    const queryNull = () => setQuery('');
+
     return (
         <div className="channel-search__container mb-4">
             <div className="channel-search__input__wrapper">
@@ -89,6 +91,8 @@ const ChannelSearch = ({ setToggleContainer }) => {
                     setChannel={setChannel}
                     setQuery={setQuery}
                     setToggleContainer={setToggleContainer}
+                    handleAppbarChange={handleAppbarChange}
+                    queryNull={queryNull}
                 />
             )}
         </div>

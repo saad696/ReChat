@@ -1,21 +1,37 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-undef */
 import React, { useEffect, useState } from 'react';
 import { StreamChat } from 'stream-chat';
 import { Chat } from 'stream-chat-react';
 import Cookie from 'universal-cookie';
-import { Auth, ChannelContainer, ChannelListContainer } from './components';
+import {
+    Auth,
+    ChannelContainer,
+    ChannelListContainer,
+    MyProfile,
+} from './components';
 // import axios from 'axios';
 
 import 'stream-chat-react/dist/css/index.css';
 import './App.css';
 
-import { createTheme, ThemeProvider } from '@mui/material';
+import {
+    BottomNavigation,
+    BottomNavigationAction,
+    createTheme,
+    Paper,
+    ThemeProvider,
+} from '@mui/material';
 // import { getBrowser } from './utilities/getBrowser';
 // import { storeDataToDB } from './utilities/storeData';
 
-// eslint-disable-next-line no-undef
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import ViewListIcon from '@mui/icons-material/ViewList';
+import ChatIcon from '@mui/icons-material/Chat';
+import useWindowDimensions from './hooks/use-window-dimensions';
+
 require('dotenv').config();
 const cookies = new Cookie();
-// eslint-disable-next-line no-undef
 const API_KEY = process.env.REACT_APP_STREAM_API_KEY;
 const authToken = cookies.get('token');
 const client = StreamChat.getInstance(API_KEY);
@@ -46,12 +62,15 @@ function App() {
     // eslint-disable-next-line no-unused-vars
     const [reRender, setReRender] = useState(null);
     const [mode, setMode] = useState();
+    const { width, height } = useWindowDimensions();
+
     // MODE === false || MODE == '' || MODE == null
     //     ? window.matchMedia('(prefers-color-scheme: dark)').matches
     //         ? 'dark'
     //         : 'light'
     //     : MODE
     const [isModeChanged, setIsModeChanged] = useState(null);
+    const [appbarValue, setAppbarValue] = useState(null);
     const theme = createTheme({
         palette: {
             mode: mode,
@@ -60,6 +79,12 @@ function App() {
     const [createType, setCreateType] = useState('');
     const [isCreating, setIsCreating] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
+
+    const [isProfileVisible, setIsProfileVisible] = useState(false);
+    const [isGroupVisible, setIsGroupVisible] = useState(true);
+    const [isDMVisible, setIsDMVisible] = useState(false);
+    const [isMessagesVisible, setIsMessagesVisible] = useState(false);
+    const [isAllVisible, setIsAllVisible] = useState(false);
     // useEffect(async () => {
     //     if (performance.navigation.type == performance.navigation.TYPE_RELOAD) {
     //         return;
@@ -104,6 +129,41 @@ function App() {
     //     }
     // }, []);
 
+    const handleAppbarChange = (event, value) => {
+        setAppbarValue(value);
+        switch (value) {
+            case 0:
+                setIsDMVisible(false);
+                setIsGroupVisible(false);
+                setIsMessagesVisible(false);
+                setIsProfileVisible(true);
+                break;
+            case 1:
+                setIsDMVisible(false);
+                setIsGroupVisible(true);
+                setIsMessagesVisible(false);
+                setIsProfileVisible(false);
+                break;
+            case 2:
+                setIsDMVisible(false);
+                setIsGroupVisible(false);
+                setIsMessagesVisible(true);
+                setIsProfileVisible(false);
+                break;
+
+            default:
+                break;
+        }
+    };
+
+    useEffect(() => {
+        if (width > 768) {
+            setIsAllVisible(true);
+        } else {
+            setIsAllVisible(false);
+        }
+    }, [width]);
+
     useEffect(() => {
         if (isModeChanged !== null) {
             localStorage.setItem('mode', mode);
@@ -122,22 +182,86 @@ function App() {
                         client={client}
                         darkMode={mode === 'dark' ? true : ''}
                     >
-                        <ChannelListContainer
-                            setMode={setMode}
-                            setIsModeChanged={setIsModeChanged}
-                            mode={mode}
-                            setCreateType={setCreateType}
-                            isCreating={isCreating}
-                            setIsCreating={setIsCreating}
-                            setIsEditing={setIsEditing}
-                        />
-                        <ChannelContainer
-                            isEditing={isEditing}
-                            isCreating={isCreating}
-                            setIsCreating={setIsCreating}
-                            setIsEditing={setIsEditing}
-                            createType={createType}
-                        />
+                        {width < 768 && isGroupVisible && (
+                            <ChannelListContainer
+                                setMode={setMode}
+                                setIsModeChanged={setIsModeChanged}
+                                mode={mode}
+                                setCreateType={setCreateType}
+                                isCreating={isCreating}
+                                setIsCreating={setIsCreating}
+                                setIsEditing={setIsEditing}
+                                handleAppbarChange={handleAppbarChange}
+                            />
+                        )}
+                        {isAllVisible && (
+                            <ChannelListContainer
+                                setMode={setMode}
+                                setIsModeChanged={setIsModeChanged}
+                                mode={mode}
+                                setCreateType={setCreateType}
+                                isCreating={isCreating}
+                                setIsCreating={setIsCreating}
+                                setIsEditing={setIsEditing}
+                                handleAppbarChange={handleAppbarChange}
+                            />
+                        )}
+                        {width < 768 && isMessagesVisible && (
+                            <ChannelContainer
+                                isEditing={isEditing}
+                                isCreating={isCreating}
+                                setIsCreating={setIsCreating}
+                                setIsEditing={setIsEditing}
+                                createType={createType}
+                                handleAppbarChange={handleAppbarChange}
+                            />
+                        )}
+                        {isAllVisible && (
+                            <ChannelContainer
+                                isEditing={isEditing}
+                                isCreating={isCreating}
+                                setIsCreating={setIsCreating}
+                                setIsEditing={setIsEditing}
+                                createType={createType}
+                                handleAppbarChange={handleAppbarChange}
+                            />
+                        )}
+                        {width < 768 && isProfileVisible && <MyProfile />}
+                        {width < 768 && !isMessagesVisible && (
+                            <Paper
+                                sx={{
+                                    position: 'fixed',
+                                    bottom: 0,
+                                    left: 0,
+                                    right: 0,
+                                    zIndex: 9999999999,
+                                }}
+                                elevation={3}
+                            >
+                                <BottomNavigation
+                                    showLabels
+                                    value={
+                                        appbarValue === null ? 1 : appbarValue
+                                    }
+                                    onChange={(event, newValue) => {
+                                        handleAppbarChange(event, newValue);
+                                    }}
+                                >
+                                    <BottomNavigationAction
+                                        label="My Profile"
+                                        icon={<AccountCircleIcon />}
+                                    />
+                                    <BottomNavigationAction
+                                        label="Chats List"
+                                        icon={<ViewListIcon />}
+                                    />
+                                    <BottomNavigationAction
+                                        label="Chat"
+                                        icon={<ChatIcon />}
+                                    />
+                                </BottomNavigation>
+                            </Paper>
+                        )}
                     </Chat>
                 </div>
             ) : (
