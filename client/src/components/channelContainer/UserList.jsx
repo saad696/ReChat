@@ -43,7 +43,7 @@ const ListConatiner = ({
                 setLoading={setLoading}
                 channelMembers={channelMembers}
             />
-            {createType === 'team' && type === 'edit' && (
+            {type === 'edit' && (
                 <>
                     <div className="user-list__header">
                         <p>Existing Users</p>
@@ -61,28 +61,29 @@ const ListConatiner = ({
                     <hr />
                 </>
             )}
-            {createType === 'team' && _selectedUsers.length > 1 && (
-                <>
-                    <div className="user-list__header">
-                        <p>Selected Users</p>
-                        <p>Selected</p>
-                    </div>
-                    <div style={{ height: '550px', overflowY: 'scroll' }}>
-                        {_selectedUsers?.map(
-                            (user, i) =>
-                                user.id !== client.userID && (
-                                    <SelectedUsers
-                                        key={user.id}
-                                        index={i}
-                                        user={user}
-                                        type="selected"
-                                    />
-                                )
-                        )}
-                    </div>
-                    <hr className="mt-3" />
-                </>
-            )}
+            {(createType === 'team' || type === 'edit') &&
+                _selectedUsers.length > 1 && (
+                    <>
+                        <div className="user-list__header">
+                            <p>Selected Users</p>
+                            <p>Selected</p>
+                        </div>
+                        <div style={{ height: '550px', overflowY: 'scroll' }}>
+                            {_selectedUsers?.map(
+                                (user, i) =>
+                                    user.id !== client.userID && (
+                                        <SelectedUsers
+                                            key={user.id}
+                                            index={i}
+                                            user={user}
+                                            type="selected"
+                                        />
+                                    )
+                            )}
+                        </div>
+                        <hr className="mt-3" />
+                    </>
+                )}
             <div className="user-list__container">
                 <div className="user-list__header">
                     <p>Users</p>
